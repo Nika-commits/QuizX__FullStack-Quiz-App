@@ -12,7 +12,7 @@ export interface IListQuestionSet {
 function ListQuestionSet() {
   const [questionSets, setQuestionSet] = useState<IListQuestionSet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { role } = useContext<IAuthContext>(AuthContext);
   const isAdmin = role === "admin";
@@ -44,7 +44,7 @@ function ListQuestionSet() {
   }, []);
 
   const TakeQuizHandler = (questionId: string) => {
-    Navigate(`/questionset/${questionId}/attempt`);
+    navigate(`/questionset/${questionId}/attempt`);
   };
 
   const DeleteQuestionSetHandler = async (questionId: string) => {
@@ -112,7 +112,7 @@ function ListQuestionSet() {
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mt-1">
                 {question.questionCount} Questions ~{" "}
-                {Math.ceil(question.questionCount * 1.5)} minutes
+                {Math.ceil(question.questionCount * 1)} minutes
               </p>
             </div>
             <div className="flex gap-2">

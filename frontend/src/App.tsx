@@ -105,7 +105,7 @@ function App() {
                 element={<ListQuestionSetPage />}
               />
               <Route
-                path="/questionSet/:id/attempt"
+                path="/questionset/:id/attempt"
                 element={<AttemptQuizPage />}
               />
             </>
