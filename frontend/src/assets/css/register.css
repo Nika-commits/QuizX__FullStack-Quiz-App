@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input-field {
+  @apply w-full p-2 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-gray-400;
+}
+
+.glow-all-around {
+  box-shadow: 0 0 10px rgba(253, 224, 71, 0.8),
+    0 0 15px 6px rgba(253, 224, 71, 0.5);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(253, 224, 71, 0.8),
+    0 0 15px rgba(253, 224, 71, 0.5);
+}
