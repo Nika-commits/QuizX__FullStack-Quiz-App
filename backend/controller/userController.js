@@ -6,6 +6,7 @@ async function createUserController(req, res) {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+  const age = req.body.age;
 
   if (!name || !email || !password) {
     return res.status(400).json({
@@ -26,6 +27,7 @@ async function createUserController(req, res) {
     name,
     email,
     password: encryptPassword,
+    age,
   };
 
   const user = new User(data);

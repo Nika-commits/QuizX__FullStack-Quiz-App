@@ -5,6 +5,7 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import "../../assets/css/navbar.css";
 import "../../index.css";
 
@@ -30,6 +31,7 @@ function CreateQuestionSetForm() {
   const methods = useForm({ defaultValues });
   const { watch, register, handleSubmit } = methods;
   console.log("form values =>", watch());
+  const Navigate = useNavigate();
 
   const onSubmit = (data: QuestionSetForm) => {
     console.log("Form submitted:", data);
@@ -44,6 +46,7 @@ function CreateQuestionSetForm() {
       })
       .then(() => {
         alert("Question set Created");
+        Navigate("/questionset/list");
       })
       .catch((err) => {
         alert("Could not Create Question Set");

@@ -6,9 +6,15 @@ import AttemptQuizForm from "../../components/QuestionSet/AttemptQuizForm";
 export interface IAttempQuestionForm {
   _id: string;
   title: string;
-  questions: IQuestion[];
-  createdBy: string;
-  __v: number;
+  questions: {
+    _id: string;
+    questionText: string;
+    choices: {
+      _id: string;
+      text: string;
+      selected?: boolean; // Make sure this property exists
+    }[];
+  }[];
 }
 
 export interface IQuestion {
