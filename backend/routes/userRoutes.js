@@ -39,6 +39,7 @@ router.put(
   validateTokenMiddleware,
   updateCurrentUserProfileController
 );
+
 router.get(
   "/profile/:userId",
   validateTokenMiddleware,
