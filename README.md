@@ -140,10 +140,6 @@ GET  /api/attempts/quiz/:quizId     # Get attempts for specific quiz
 - **CORS Configuration**: Proper cross-origin resource sharing setup
 - **Secure Headers**: Security headers for API protection
 
-# Deploy the dist/ folder to your hosting platform
-
-# Configure environment variables in your hosting dashboard
-
 ```
 
 ```
