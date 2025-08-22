@@ -149,7 +149,7 @@ const ViewUserProfile: React.FC = () => {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            Back to Community
+            Back to Home
           </button>
         </div>
 
@@ -191,7 +191,7 @@ const ViewUserProfile: React.FC = () => {
           {(profile.github || profile.linkedin || profile.portfolioUrl) && (
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Links & Social
+                Links
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {profile.github && (
@@ -248,7 +248,7 @@ const ViewUserProfile: React.FC = () => {
           {/* Skills Section */}
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-              Skills & Expertise
+              Skills
             </h2>
             {profile.skills && profile.skills.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
