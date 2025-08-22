@@ -2,7 +2,7 @@
 
 A modern full-stack quiz application built with React and TypeScript for the frontend and Node.js for the backend. This comprehensive platform allows users to create, manage, and attempt quizzes with real-time scoring and detailed analytics.
 
-## 🚀 Features
+## Features
 
 ### Core Functionality
 
@@ -22,7 +22,7 @@ A modern full-stack quiz application built with React and TypeScript for the fro
 - **Real-time Feedback**: Instant score display upon quiz completion
 - **Progress Indicators**: Visual progress bars and completion status
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -41,7 +41,7 @@ A modern full-stack quiz application built with React and TypeScript for the fro
 - **JWT** - JSON Web Tokens for secure authentication
 - **MongoDB** - NoSQL database for flexible data storage
 
-## 🔧 Prerequisites
+## Prerequisites
 
 Ensure you have the following installed:
 
@@ -50,7 +50,7 @@ Ensure you have the following installed:
 - **MongoDB** database server
 - **Git** for version control
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 
@@ -132,7 +132,7 @@ GET  /api/attempts/user/:userId     # Get user's quiz attempts
 GET  /api/attempts/quiz/:quizId     # Get attempts for specific quiz
 ```
 
-## 🔒 Security Features
+## Security Features
 
 - **JWT Authentication**: Secure token-based authentication
 - **Protected Routes**: Frontend and backend route protection
