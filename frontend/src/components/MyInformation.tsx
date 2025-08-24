@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AuthContext, type IAuthContext } from "../App"; // Adjust path as needed
 import "../assets/css/myInformation.css";
 
 function MyInformation({
@@ -6,15 +8,24 @@ function MyInformation({
   email,
   age,
   onClick,
+  onEdit,
+  onDelete,
 }: {
   id: string;
   name: string;
   email?: string;
   age?: number;
   onClick?: () => void;
+  onEdit?: (userId: string) => void;
+  onDelete?: (userId: string) => void;
 }) {
+  // Get the user's role from AuthContext
+  const { role } = useContext<IAuthContext>(AuthContext);
+  const isAdmin = role === "admin";
+
   return (
     <div className="w-full">
+      {/* Profile Card - Clickable */}
       <div
         className="cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
         onClick={onClick}
@@ -75,6 +86,24 @@ function MyInformation({
           </div>
         </div>
       </div>
+
+      {/* Admin Buttons - Separate from clickable area */}
+      {isAdmin && (
+        <div className="flex gap-2 mt-2 ml-2">
+          <button
+            onClick={() => onDelete?.(id)}
+            className="p-2 bg-red-500 rounded-md text-white hover:bg-red-600 transition-colors"
+          >
+            Delete User
+          </button>
+          <button
+            onClick={() => onEdit?.(id)}
+            className="p-2 bg-yellow-600 rounded-md text-white hover:bg-yellow-700 transition-colors"
+          >
+            Edit User
+          </button>
+        </div>
+      )}
     </div>
   );
 }

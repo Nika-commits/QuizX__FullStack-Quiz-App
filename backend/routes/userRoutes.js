@@ -2,7 +2,7 @@ var express = require("express");
 
 const {
   createUserController,
-  getUserController,
+  deleteUserController,
   loginHandleController,
   getUserListController,
 } = require("../controller/userController");
@@ -14,6 +14,7 @@ const {
 } = require("../controller/profileController");
 
 const { validateTokenMiddleware } = require("../middleware/AuthMiddleware");
+const { adminOnlyMiddleware } = require("../middleware/RoleMiddleware");
 var router = express.Router();
 
 /* GET users listing. */

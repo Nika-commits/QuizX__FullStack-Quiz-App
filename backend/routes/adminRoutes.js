@@ -1,6 +1,7 @@
 var express = require("express");
 const {
   createQuestionSetController,
+  deleteUserController,
 } = require("../controller/adminController");
 const { validateTokenMiddleware } = require("../middleware/AuthMiddleware");
 const { adminOnlyMiddleware } = require("../middleware/RoleMiddleware");
@@ -13,4 +14,10 @@ router.post(
   createQuestionSetController
 );
 
+router.delete(
+  "/:id",
+  validateTokenMiddleware,
+  adminOnlyMiddleware,
+  deleteUserController
+);
 module.exports = router;

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../index.css";
+import DeleteConfirmationModal from "../DeleteConfirmationModalProps";
 import MyInformation from "../MyInformation";
 
 export interface IAuthUserList {
@@ -16,6 +17,12 @@ export interface IAuthUserList {
 
 function AuthHomePage() {
   const [users, setUsers] = useState<IAuthUserList[]>([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [usersToDelete, setUsersToDelete] = useState<IAuthUserList | null>(
+    null
+  );
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +51,68 @@ function AuthHomePage() {
     navigate(`/profile/${userId}`);
   };
 
+  const handleEditUser = (userId: string) => {
+    navigate(`/users/${userId}/edit`);
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    const user = users.find((u) => u._id === userId);
+    if (user) {
+      setUsersToDelete(user);
+      setShowDeleteModal(true);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!usersToDelete) return;
+
+    setIsDeleting(true);
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      alert("❌ Authentication token not found. Please log in again.");
+      setIsDeleting(false);
+      return;
+    }
+
+    try {
+      await axios.delete(
+        `http://localhost:3000/api/admin/${usersToDelete._id}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+
+      // Update the users list by removing the deleted user
+      setUsers((prev) => prev.filter((user) => user._id !== usersToDelete._id));
+
+      // Close modal and reset state
+      setShowDeleteModal(false);
+      setUsersToDelete(null);
+
+      // Show success message
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+
+      const errorMessage =
+        error?.response?.data?.message || "An unexpected error occurred";
+      alert(
+        `❌ Delete Failed!\n\n` +
+          `Error: ${errorMessage}\n\n` +
+          `User "${usersToDelete.name}" was NOT deleted. Please try again.`
+      );
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleCloseDeleteModal = () => {
+    if (!isDeleting) {
+      setShowDeleteModal(false);
+      setUsersToDelete(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 w-full">
       {users.length === 0 ? (
@@ -66,6 +135,8 @@ function AuthHomePage() {
                     email={user?.email}
                     age={user?.age}
                     onClick={() => handleUserClick(user._id)}
+                    onEdit={handleEditUser}
+                    onDelete={handleDeleteUser}
                   />
                 </div>
               );
@@ -73,6 +144,15 @@ function AuthHomePage() {
           </div>
         </div>
       )}
+
+      {/* Simplified Delete Confirmation Modal */}
+      <DeleteConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={handleCloseDeleteModal}
+        onConfirm={handleConfirmDelete}
+        userName={usersToDelete?.name || ""}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 }
