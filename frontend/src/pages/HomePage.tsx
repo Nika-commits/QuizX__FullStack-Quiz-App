@@ -1,9 +1,13 @@
+import { useContext } from "react";
+import { AuthContext } from "../App";
 import AuthHomePage from "../components/HomePage/AuthHomePage";
+import UnAuthHomePage from "../components/HomePage/UnAuthHomePage";
 
 function HomePage() {
+  const { isAuth, role } = useContext(AuthContext);
   return (
     <div className=" dark:bg-gray-900">
-      <AuthHomePage />
+      {isAuth ? <AuthHomePage /> : <UnAuthHomePage />}
     </div>
   );
 }

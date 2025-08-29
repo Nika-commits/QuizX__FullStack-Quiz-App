@@ -22,6 +22,7 @@ function AuthHomePage() {
     null
   );
   const [isDeleting, setIsDeleting] = useState(false);
+  const [editing, setEditing] = useState(false);
 
   const navigate = useNavigate();
 
@@ -47,12 +48,18 @@ function AuthHomePage() {
     fetchData();
   }, []);
 
+  /*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * Navigates to the user profile page for the given userId.
+   * @param {string} userId The user ID to n avigate to.
+   */
+  /*******  3490296c-dacc-4087-bf5d-c061a77b7a41  *******/
   const handleUserClick = (userId: string) => {
     navigate(`/profile/${userId}`);
   };
 
   const handleEditUser = (userId: string) => {
-    navigate(`/users/${userId}/edit`);
+    navigate(`/admin/edit/${userId}`);
   };
 
   const handleDeleteUser = async (userId: string) => {

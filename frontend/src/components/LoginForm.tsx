@@ -27,11 +27,11 @@ function LoginForm() {
         }));
 
         // Navigate("/");
+        window.location.href = "/";
 
         // Clear the form fields after successful login
         setEmail("");
         setPassword("");
-        window.location.href = "/";
       })
       .catch((error) => {
         console.error("Error:", error);

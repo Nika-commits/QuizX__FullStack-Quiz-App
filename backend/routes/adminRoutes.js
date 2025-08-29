@@ -2,6 +2,7 @@ var express = require("express");
 const {
   createQuestionSetController,
   deleteUserController,
+  editUserController,
 } = require("../controller/adminController");
 const { validateTokenMiddleware } = require("../middleware/AuthMiddleware");
 const { adminOnlyMiddleware } = require("../middleware/RoleMiddleware");
@@ -19,5 +20,12 @@ router.delete(
   validateTokenMiddleware,
   adminOnlyMiddleware,
   deleteUserController
+);
+
+router.put(
+  "/edit",
+  validateTokenMiddleware,
+  adminOnlyMiddleware,
+  editUserController
 );
 module.exports = router;
