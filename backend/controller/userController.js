@@ -33,9 +33,14 @@ async function createUserController(req, res) {
 
   const user = new User(data);
   await user.save();
+
+  const profile = new Profile({ user: user._id });
+  await profile.save();
+
   res.status(201).json({
     message: "User Created",
     user: user,
+    profile,
   });
 }
 

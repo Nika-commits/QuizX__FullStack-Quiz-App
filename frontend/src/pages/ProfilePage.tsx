@@ -1,279 +1,10 @@
-// import axios from "axios";
-// import React, { useEffect, useState } from "react";
-// import EditProfileForm from "../components/EditProfileForm"; // Import your form component
-
-// interface Skill {
-//   name: string;
-//   level: "Beginner" | "Intermediate" | "Advanced";
-// }
-
-// interface Profile {
-//   _id: string;
-//   user: {
-//     _id: string;
-//     name: string;
-//     email: string;
-//     age?: number;
-//   };
-//   bio?: string;
-//   profilePicture?: string;
-//   skills: Skill[];
-//   github?: string;
-//   linkedin?: string;
-//   portfolioUrl?: string;
-//   createdAt: string;
-//   updatedAt: string;
-// }
-
-// interface ProfilePageProps {
-//   userId?: string; // Optional prop for admin to edit other users
-//   isAdmin?: boolean; // Flag to indicate admin mode
-// }
-
-// const ProfilePage: React.FC<ProfilePageProps> = ({
-//   userId,
-//   isAdmin = false,
-// }) => {
-//   const [profile, setProfile] = useState<Profile | null>(null);
-//   const [loading, setLoading] = useState(true);
-//   const [editing, setEditing] = useState(false);
-
-//   useEffect(() => {
-//     fetchProfile();
-//   }, [userId]);
-
-//   const fetchProfile = async () => {
-//     try {
-//       const accessToken = localStorage.getItem("accessToken");
-//       const endpoint = userId
-//         ? `http://localhost:3000/users/profile/${userId}` // Admin viewing other user's profile
-//         : "http://localhost:3000/users/profile/me"; // User viewing their own profile
-
-//       const response = await axios.get(endpoint, {
-//         headers: {
-//           Authorization: `Bearer ${accessToken}`,
-//         },
-//       });
-
-//       setProfile(response.data.profile);
-//     } catch (error) {
-//       console.error("Error fetching profile:", error);
-//       alert("Error loading profile");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleEditSuccess = () => {
-//     setEditing(false);
-//     fetchProfile(); // Refresh profile data
-//   };
-
-//   const handleEditCancel = () => {
-//     setEditing(false);
-//   };
-
-//   if (loading) {
-//     return (
-//       <div className="min-h-screen flex items-center justify-center">
-//         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-yellow-400"></div>
-//       </div>
-//     );
-//   }
-
-//   if (!profile) {
-//     return (
-//       <div className="min-h-screen flex items-center justify-center">
-//         <div className="text-center">
-//           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-//             Profile not found
-//           </h2>
-//           <button
-//             onClick={() => window.location.reload()}
-//             className="px-4 py-2 bg-yellow-400 text-white rounded-lg hover:bg-yellow-500"
-//           >
-//             Retry
-//           </button>
-//         </div>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-//       <div className="max-w-4xl mx-auto px-4">
-//         {/* Header */}
-//         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8">
-//           <div className="flex items-center justify-between mb-6">
-//             <div className="flex items-center space-x-6">
-//               <div className="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center text-white text-3xl font-bold">
-//                 {profile.user.name.charAt(0).toUpperCase()}
-//               </div>
-//               <div>
-//                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-//                   {profile.user.name}
-//                   {isAdmin && (
-//                     <span className="text-sm text-gray-500 ml-2">
-//                       (Admin View)
-//                     </span>
-//                   )}
-//                 </h1>
-//                 <p className="text-gray-600 dark:text-gray-400">
-//                   {profile.user.email}
-//                 </p>
-//                 {profile.user.age && (
-//                   <p className="text-gray-600 dark:text-gray-400">
-//                     Age: {profile.user.age}
-//                   </p>
-//                 )}
-//               </div>
-//             </div>
-//             <button
-//               onClick={() => setEditing(!editing)}
-//               className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
-//             >
-//               {editing
-//                 ? "View Profile"
-//                 : `${isAdmin ? "Edit User Profile" : "Edit Profile"}`}
-//             </button>
-//           </div>
-//         </div>
-
-//         {editing ? (
-//           /* Edit Form Component */
-//           <EditProfileForm
-//             profile={profile}
-//             onCancel={handleEditCancel}
-//             onSuccess={handleEditSuccess}
-//             isAdmin={isAdmin}
-//             targetUserId={userId}
-//           />
-//         ) : (
-//           /* Profile Display */
-//           <div className="space-y-8">
-//             {/* Bio Section */}
-//             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-//               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-//                 About
-//               </h2>
-//               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-//                 {profile.bio ||
-//                   'No bio available. Click "Edit Profile" to add one.'}
-//               </p>
-//             </div>
-
-//             {/* Links Section */}
-//             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-//               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-//                 Links
-//               </h2>
-//               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-//                 {profile.github && (
-//                   <a
-//                     href={profile.github}
-//                     target="_blank"
-//                     rel="noopener noreferrer"
-//                     className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200"
-//                   >
-//                     <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center">
-//                       <span className="text-white text-sm font-bold">GH</span>
-//                     </div>
-//                     <span className="text-gray-700 dark:text-gray-300">
-//                       GitHub
-//                     </span>
-//                   </a>
-//                 )}
-
-//                 {profile.linkedin && (
-//                   <a
-//                     href={profile.linkedin}
-//                     target="_blank"
-//                     rel="noopener noreferrer"
-//                     className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200"
-//                   >
-//                     <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-//                       <span className="text-white text-sm font-bold">LI</span>
-//                     </div>
-//                     <span className="text-gray-700 dark:text-gray-300">
-//                       LinkedIn
-//                     </span>
-//                   </a>
-//                 )}
-
-//                 {profile.portfolioUrl && (
-//                   <a
-//                     href={profile.portfolioUrl}
-//                     target="_blank"
-//                     rel="noopener noreferrer"
-//                     className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200"
-//                   >
-//                     <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
-//                       <span className="text-white text-sm font-bold">PF</span>
-//                     </div>
-//                     <span className="text-gray-700 dark:text-gray-300">
-//                       Portfolio
-//                     </span>
-//                   </a>
-//                 )}
-//               </div>
-
-//               {!profile.github &&
-//                 !profile.linkedin &&
-//                 !profile.portfolioUrl && (
-//                   <p className="text-gray-500 dark:text-gray-400 italic">
-//                     No links added yet. Click "Edit Profile" to add your social
-//                     links.
-//                   </p>
-//                 )}
-//             </div>
-
-//             {/* Skills Section */}
-//             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-//               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-//                 Skills
-//               </h2>
-//               {profile.skills.length > 0 ? (
-//                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-//                   {profile.skills.map((skill, index) => (
-//                     <div
-//                       key={index}
-//                       className="flex items-center justify-between p-4 border border-gray-300 dark:border-gray-600 rounded-lg"
-//                     >
-//                       <span className="font-medium text-gray-900 dark:text-white">
-//                         {skill.name}
-//                       </span>
-//                       <span
-//                         className={`px-3 py-1 rounded-full text-sm font-medium ${
-//                           skill.level === "Advanced"
-//                             ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-//                             : skill.level === "Intermediate"
-//                             ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-//                             : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-//                         }`}
-//                       >
-//                         {skill.level}
-//                       </span>
-//                     </div>
-//                   ))}
-//                 </div>
-//               ) : (
-//                 <p className="text-gray-500 dark:text-gray-400 italic">
-//                   No skills added yet. Click "Edit Profile" to add your skills.
-//                 </p>
-//               )}
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ProfilePage;
+// Updated ProfilePage with proper admin edit button logic
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import EditProfileForm from "../components/EditProfileForm"; // Import your form component
+import { AuthContext, type IAuthContext } from "../App";
+import DeleteConfirmationModal from "../components/DeleteConfirmationModalProps";
+import EditProfileForm from "../components/EditProfileForm";
 
 interface Skill {
   name: string;
@@ -299,20 +30,26 @@ interface Profile {
 }
 
 interface ProfilePageProps {
-  isAdmin?: boolean; // Flag to indicate admin mode
+  isAdmin?: boolean;
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
-  const { userId } = useParams<{ userId: string }>(); // Get userId from URL params
+  const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
+  const { role } = useContext<IAuthContext>(AuthContext);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Determine if viewing own profile or someone else's
   const isOwnProfile = !userId;
   const isViewingOtherProfile = !!userId && !editing;
+
+  // Check if current user is admin using AuthContext
+  const currentUserIsAdmin = role === "admin";
 
   useEffect(() => {
     fetchProfile();
@@ -325,8 +62,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
 
       const accessToken = localStorage.getItem("accessToken");
       const endpoint = userId
-        ? `http://localhost:3000/users/profile/${userId}` // Viewing other user's profile
-        : "http://localhost:3000/users/profile/me"; // User viewing their own profile
+        ? `http://localhost:3000/users/profile/${userId}`
+        : "http://localhost:3000/users/profile/me";
 
       const response = await axios.get(endpoint, {
         headers: {
@@ -356,11 +93,59 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
 
   const handleEditSuccess = () => {
     setEditing(false);
-    fetchProfile(); // Refresh profile data
+    fetchProfile();
   };
 
   const handleEditCancel = () => {
     setEditing(false);
+  };
+
+  const handleDeleteUser = () => {
+    if (profile && userId) {
+      setShowDeleteModal(true);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!profile || !userId) return;
+
+    setIsDeleting(true);
+    const accessToken = localStorage.getItem("accessToken");
+
+    if (!accessToken) {
+      alert("Authentication token not found. Please log in again.");
+      setIsDeleting(false);
+      return;
+    }
+
+    try {
+      await axios.delete(`http://localhost:3000/api/admin/${userId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      // Navigate back to home after successful deletion
+      navigate("/home");
+    } catch (error) {
+      console.error("Failed to delete user:", error);
+
+      const errorMessage =
+        (axios.isAxiosError(error) && error.response?.data?.message) ||
+        "An unexpected error occurred";
+      alert(
+        `Delete Failed!\n\n` +
+          `Error: ${errorMessage}\n\n` +
+          `User "${profile.user.name}" was NOT deleted. Please try again.`
+      );
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteModal(false);
+    }
+  };
+
+  const handleCloseDeleteModal = () => {
+    if (!isDeleting) {
+      setShowDeleteModal(false);
+    }
   };
 
   const getInitials = (name: string) => {
@@ -416,6 +201,9 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
     );
   }
 
+  // Updated logic: Show edit button if it's own profile OR if current user is admin
+  const shouldShowEditButton = isOwnProfile || currentUserIsAdmin;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -454,7 +242,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
               <div className="text-center sm:text-left">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                   {profile.user.name}
-                  {isAdmin && (
+                  {currentUserIsAdmin && userId && (
                     <span className="text-sm text-gray-500 ml-2">
                       (Admin View)
                     </span>
@@ -471,16 +259,32 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
               </div>
             </div>
 
-            {/* Only show edit button for own profile or admin */}
-            {(isOwnProfile || isAdmin) && (
-              <button
-                onClick={() => setEditing(!editing)}
-                className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
-              >
-                {editing
-                  ? "View Profile"
-                  : `${isAdmin ? "Edit User Profile" : "Edit Profile"}`}
-              </button>
+            {/* Show edit button for own profile OR when admin views any profile */}
+            {shouldShowEditButton && (
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => setEditing(!editing)}
+                  className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
+                >
+                  {editing
+                    ? "View Profile"
+                    : `${
+                        currentUserIsAdmin && userId
+                          ? "Edit User Profile"
+                          : "Edit Profile"
+                      }`}
+                </button>
+
+                {/* Delete button - Only show for admin viewing other user's profile */}
+                {currentUserIsAdmin && userId && !editing && (
+                  <button
+                    onClick={handleDeleteUser}
+                    className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition duration-200"
+                  >
+                    Delete User
+                  </button>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -491,7 +295,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
             profile={profile}
             onCancel={handleEditCancel}
             onSuccess={handleEditSuccess}
-            isAdmin={isAdmin}
+            isAdmin={currentUserIsAdmin}
             targetUserId={userId}
           />
         ) : (
@@ -614,6 +418,17 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isAdmin = false }) => {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal - Only for admin */}
+      {currentUserIsAdmin && (
+        <DeleteConfirmationModal
+          isOpen={showDeleteModal}
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleConfirmDelete}
+          userName={profile?.user.name || ""}
+          isDeleting={isDeleting}
+        />
+      )}
     </div>
   );
 };

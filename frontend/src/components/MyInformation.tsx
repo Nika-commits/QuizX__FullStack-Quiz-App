@@ -8,9 +8,9 @@ function MyInformation({
   email,
   age,
   onClick,
-  onEdit,
-  onDelete,
-}: {
+}: // onEdit,
+// onDelete,
+{
   id: string;
   name: string;
   email?: string;
@@ -88,7 +88,7 @@ function MyInformation({
       </div>
 
       {/* Admin Buttons - Separate from clickable area */}
-      {isAdmin && (
+      {/* {isAdmin && (
         <div className="flex gap-2 mt-2 ml-2">
           <button
             onClick={() => onDelete?.(id)}
@@ -103,7 +103,7 @@ function MyInformation({
             Edit User
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
