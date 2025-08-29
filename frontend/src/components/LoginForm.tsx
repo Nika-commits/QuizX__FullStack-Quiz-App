@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthContext, type IAuthContext } from "../App";
 import "../assets/css/register.css";
 
@@ -9,8 +8,6 @@ function LoginForm() {
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { isAuth, setAuthState } = useContext<IAuthContext>(AuthContext);
-
-  const Navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
