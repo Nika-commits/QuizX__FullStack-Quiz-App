@@ -1,7 +1,8 @@
+"use client";
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../index.css";
 import MyInformation from "../MyInformation";
 
 export interface IAuthUserList {
@@ -16,149 +17,133 @@ export interface IAuthUserList {
 
 function AuthHomePage() {
   const [users, setUsers] = useState<IAuthUserList[]>([]);
-  // const [showDeleteModal, setShowDeleteModal] = useState(false);
-  // const [usersToDelete, setUsersToDelete] = useState<IAuthUserList | null>(
-  //   null
-  // );
-  // const [isDeleting, setIsDeleting] = useState(false);
-  // const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     async function fetchData() {
-      axios
-        .get("http://localhost:3000/users/list", {
+      try {
+        const response = await axios.get("http://localhost:3000/users/list", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        })
-        .then((response) => {
-          const UserList: IAuthUserList[] = response?.data?.users || [];
-          setUsers(UserList);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          const errors = error?.response?.data?.message || "An error occurred";
-          alert(errors);
         });
+        const UserList: IAuthUserList[] = response?.data?.users || [];
+        setUsers(UserList);
+      } catch (error) {
+        console.error("Error:", error);
+        const errors = error?.response?.data?.message || "An error occurred";
+        alert(errors);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchData();
   }, []);
 
-  /*************  ✨ Windsurf Command ⭐  *************/
-  /**
-   * Navigates to the user profile page for the given userId.
-   * @param {string} userId The user ID to n avigate to.
-   */
-  /*******  3490296c-dacc-4087-bf5d-c061a77b7a41  *******/
   const handleUserClick = (userId: string) => {
     navigate(`/profile/${userId}`);
   };
 
-  // const handleEditUser = (userId: string) => {
-  //   navigate(`/admin/edit/${userId}`);
-  // };
-
-  // const handleDeleteUser = async (userId: string) => {
-  //   const user = users.find((u) => u._id === userId);
-  //   if (user) {
-  //     setUsersToDelete(user);
-  //     setShowDeleteModal(true);
-  //   }
-  // };
-
-  // const handleConfirmDelete = async () => {
-  //   if (!usersToDelete) return;
-
-  //   setIsDeleting(true);
-  //   const accessToken = localStorage.getItem("accessToken");
-
-  //   if (!accessToken) {
-  //     alert("❌ Authentication token not found. Please log in again.");
-  //     setIsDeleting(false);
-  //     return;
-  //   }
-
-  //   try {
-  //     await axios.delete(
-  //       `http://localhost:3000/api/admin/${usersToDelete._id}`,
-  //       {
-  //         headers: { Authorization: `Bearer ${accessToken}` },
-  //       }
-  //     );
-
-  //     // Update the users list by removing the deleted user
-  //     setUsers((prev) => prev.filter((user) => user._id !== usersToDelete._id));
-
-  //     // Close modal and reset state
-  //     setShowDeleteModal(false);
-  //     setUsersToDelete(null);
-
-  //     // Show success message
-  //   } catch (error) {
-  //     console.error("Failed to delete user:", error);
-
-  //     const errorMessage =
-  //       error?.response?.data?.message || "An unexpected error occurred";
-  //     alert(
-  //       `❌ Delete Failed!\n\n` +
-  //         `Error: ${errorMessage}\n\n` +
-  //         `User "${usersToDelete.name}" was NOT deleted. Please try again.`
-  //     );
-  //   } finally {
-  //     setIsDeleting(false);
-  //   }
-  // };
-
-  // const handleCloseDeleteModal = () => {
-  //   if (!isDeleting) {
-  //     setShowDeleteModal(false);
-  //     setUsersToDelete(null);
-  //   }
-  // };
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Loading users...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 w-full">
-      {users.length === 0 ? (
-        <div className="h-screen w-full flex justify-center items-center">
-          <p className="text-gray-500">Users are Not Available</p>
-        </div>
-      ) : (
-        <div className="w-full max-w-4xl mx-auto p-4">
-          <h1 className="text-2xl font-bold text-center mb-6 text-white">
-            All Available Users
-          </h1>
-
-          <div className="space-y-4">
-            {users?.map((user) => {
-              return (
-                <div key={user._id} className="w-full">
-                  <MyInformation
-                    id={user?._id}
-                    name={user?.name}
-                    email={user?.email}
-                    age={user?.age}
-                    onClick={() => handleUserClick(user._id)}
-                    // onEdit={handleEditUser}
-                    // onDelete={handleDeleteUser}
-                  />
-                </div>
-              );
-            })}
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-6xl mx-auto px-6 py-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white mb-2">
+              Connected Users
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 text-lg">
+              {users.length} users are Connected
+            </p>
+            <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-500 mx-auto mt-4 rounded-full"></div>
           </div>
         </div>
-      )}
+      </div>
 
-      {/* Simplified Delete Confirmation Modal */}
-      {/* <DeleteConfirmationModal
-        isOpen={showDeleteModal}
-        onClose={handleCloseDeleteModal}
-        onConfirm={handleConfirmDelete}
-        userName={usersToDelete?.name || ""}
-        isDeleting={isDeleting}
-      /> */}
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        {users.length === 0 ? (
+          /* Enhanced empty state with better visual design */
+          <div className="text-center py-16">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 max-w-md mx-auto">
+              <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg
+                  className="w-10 h-10 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                No Users Found
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400">
+                There are currently no users available in the system.
+              </p>
+            </div>
+          </div>
+        ) : (
+          /* Improved grid layout for better responsive design */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {users.map((user, index) => (
+              <div
+                key={user._id}
+                className="animate-fade-in-up"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <MyInformation
+                  id={user._id}
+                  name={user.name}
+                  email={user.email}
+                  age={user.age}
+                  onClick={() => handleUserClick(user._id)}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <style>
+        {`
+          @keyframes fade-in-up {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+            opacity: 0;
+          }
+        `}
+      </style>
     </div>
   );
 }
