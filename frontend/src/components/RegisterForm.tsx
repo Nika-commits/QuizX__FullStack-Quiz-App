@@ -32,7 +32,7 @@ function RegisterForm() {
   return (
     <div className="grid grid-cols-[65%_35%] min-h-screen dark:bg-gray-900">
       <div className="flex justify-end items-start px-8 pt-16">
-        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg animate-fade-in-up glow-all-around">
+        <div className="w-full max-w-md bg-white p-8 rounded-2xl  animate-fade-in-up glow-all-around">
           <h1 className="text-4xl font-extrabold mb-4 text-center">Sign Up</h1>
           <p className="text-sm text-gray-500 mb-6 text-center">
             Register to Continue
