@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../assets/css/register.css";
 
 function RegisterForm() {
@@ -8,6 +10,7 @@ function RegisterForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -15,17 +18,18 @@ function RegisterForm() {
     axios
       .post("http://localhost:3000/users/create", finalData)
       .then(() => {
-        alert("User Created Successfully");
+        toast.success("User Created Successfully");
         setName("");
         setEmail("");
         setPassword("");
         setAge(18);
-        window.location.href = "/login"; // Redirect to login after registration
+        navigate("/login");
       })
+
       .catch((error) => {
         console.error("Error:", error);
         const errors = error?.response?.data?.message || "An error occurred";
-        alert(errors);
+        toast.error(errors);
       });
   };
 

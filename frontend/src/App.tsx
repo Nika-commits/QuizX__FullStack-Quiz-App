@@ -3,12 +3,15 @@ import { jwtDecode } from "jwt-decode";
 import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // base styles
+import "./assets/css/toastStyles.css"; // your custom styles
 import AuthHomePage from "./components/HomePage/AuthHomePage";
 import Navbar from "./components/Navbar";
 import AboutUsPage from "./pages/AboutUsPage";
 import HomePage from "./pages/HomePage";
 import LeaderboardPage from "./pages/LeaderboardPage";
 import LoginPage from "./pages/LoginPage";
+import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
 import AttemptQuizPage from "./pages/QuestionSet/AttemptQuizPage";
 import CreateQuestionSetPage from "./pages/QuestionSet/CreateQuestionSetPage";
@@ -140,20 +143,18 @@ function App() {
             </>
           )}
 
-          <Route
-            path="*"
-            element={<h1 className="text-center text-4xl ">No Page Found</h1>}
-          />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContext.Provider>
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop
         closeOnClick
         pauseOnHover
-        theme="dark"
+        draggable
+        theme="dark" // base dark theme, colors overridden by CSS
       />
     </>
   );

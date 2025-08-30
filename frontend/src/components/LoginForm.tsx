@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext, type IAuthContext } from "../App";
 import "../assets/css/register.css";
 
@@ -8,33 +10,46 @@ function LoginForm() {
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const { setAuthState } = useContext<IAuthContext>(AuthContext);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const finalData = { email, password };
-    axios
-      .post("http://localhost:3000/users/login", finalData)
-      .then((response) => {
-        const token = response.data.accessToken;
-        localStorage.setItem("accessToken", token);
-        alert("User Logged In Successfully");
-        setAuthState((prev) => ({
-          ...prev,
-          isAuth: true,
-        }));
 
-        // Navigate("/");
-        window.location.href = "/";
-
-        // Clear the form fields after successful login
-        setEmail("");
-        setPassword("");
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        const errors = error?.response?.data?.message || "An error occurred";
-        alert(errors);
+    try {
+      const response = await axios.post("http://localhost:3000/users/login", {
+        email,
+        password,
       });
+
+      const token = response.data.accessToken;
+      localStorage.setItem("accessToken", token);
+
+      // Decode role from token
+      const { role }: { role: "admin" | "professional" } = JSON.parse(
+        atob(token.split(".")[1])
+      );
+
+      // Update global auth state
+      setAuthState({ isAuth: true, role });
+
+      // Show success toast
+      toast.success("User Logged In Successfully", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+
+      // Navigate without full reload
+      navigate("/home", { replace: true });
+
+      // Clear form fields
+      setEmail("");
+      setPassword("");
+    } catch (error: any) {
+      console.error("Login error:", error);
+      const message =
+        error?.response?.data?.message || "An error occurred. Try again.";
+      toast.error(message, { position: "top-right", autoClose: 3000 });
+    }
   };
 
   return (
@@ -73,7 +88,7 @@ function LoginForm() {
                   onClick={() => setShowPassword((prev) => !prev)}
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
                 >
-                  {showPassword ? "Hide" : "Show "}
+                  {showPassword ? "Hide" : "Show"}
                 </button>
               </div>
             </div>

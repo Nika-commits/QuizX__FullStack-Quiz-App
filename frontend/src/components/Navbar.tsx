@@ -1,14 +1,18 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext, type IAuthContext } from "../App";
 import "../assets/css/navbar.css";
 
 function Navbar() {
   const { isAuth, role, setAuthState } = useContext<IAuthContext>(AuthContext);
+  const navigate = useNavigate();
 
   const LogoutHandler = () => {
     localStorage.removeItem("accessToken");
-    window.location.href = "/";
+    toast.success("User Logged Out Successfully");
+    navigate("/");
+
     if (setAuthState) {
       setAuthState((prev) => ({
         ...prev,

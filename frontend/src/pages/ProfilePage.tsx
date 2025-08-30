@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext, type IAuthContext } from "../App";
 import DeleteConfirmationModal from "../components/DeleteConfirmationModalProps";
 import EditProfileForm from "../components/EditProfileForm";
@@ -198,7 +199,7 @@ const ProfilePage: React.FC = () => {
       await axios.delete(`http://localhost:3000/api/admin/${userId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
-
+      toast.success("User deleted successfully");
       navigate("/home");
     } catch (error) {
       console.error("Failed to delete user:", error);

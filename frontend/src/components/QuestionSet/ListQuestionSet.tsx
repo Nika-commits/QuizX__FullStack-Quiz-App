@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext, type IAuthContext } from "../../App";
 
 export interface IListQuestionSet {
@@ -47,24 +48,63 @@ function ListQuestionSet() {
     navigate(`/questionset/${questionId}/attempt`);
   };
 
-  const DeleteQuestionSetHandler = async (questionId: string) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this question set?"
-    );
-    if (!confirmDelete) return;
-
+  const DeleteQuestionSetHandler = (questionId: string) => {
     const accessToken = localStorage.getItem("accessToken");
-    if (!accessToken) return;
-
-    try {
-      await axios.delete(
-        `http://localhost:3000/api/questions/set/${questionId}`,
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      );
-      setQuestionSet((prev) => prev.filter((q) => q._id !== questionId));
-    } catch (error) {
-      console.error("Failed to delete question set:", error);
+    if (!accessToken) {
+      toast.error("Unauthorized! Please log in again.");
+      return;
     }
+
+    // Custom confirmation toast
+    const confirmToast = () =>
+      toast(
+        ({ closeToast }) => (
+          <div className="flex flex-col gap-2">
+            <p className="font-semibold">Are you sure you want to delete?</p>
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={async () => {
+                  try {
+                    await axios.delete(
+                      `http://localhost:3000/api/questions/set/${questionId}`,
+                      { headers: { Authorization: `Bearer ${accessToken}` } }
+                    );
+
+                    setQuestionSet((prev) =>
+                      prev.filter((q) => q._id !== questionId)
+                    );
+
+                    toast.success("Question set deleted successfully!");
+                  } catch (error: any) {
+                    toast.error(
+                      error.response?.data?.message ||
+                        "Failed to delete question set!"
+                    );
+                  } finally {
+                    closeToast?.(); // close the confirm toast
+                  }
+                }}
+                className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700"
+              >
+                Yes
+              </button>
+              <button
+                onClick={closeToast}
+                className="px-3 py-1 rounded bg-gray-300 text-black hover:bg-gray-400"
+              >
+                No
+              </button>
+            </div>
+          </div>
+        ),
+        {
+          autoClose: false, // don’t auto close until user chooses
+          closeOnClick: false,
+          draggable: false,
+        }
+      );
+
+    confirmToast();
   };
 
   if (isLoading) {

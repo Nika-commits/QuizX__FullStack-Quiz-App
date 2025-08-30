@@ -6,6 +6,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "../../assets/css/navbar.css";
 import "../../index.css";
 
@@ -45,11 +46,11 @@ function CreateQuestionSetForm() {
         },
       })
       .then(() => {
-        alert("Question set Created");
+        toast.success("Question set created successfully");
         Navigate("/questionset/list");
       })
       .catch(() => {
-        alert("Could not Create Question Set");
+        toast.error("Could not create question set");
       });
   };
 

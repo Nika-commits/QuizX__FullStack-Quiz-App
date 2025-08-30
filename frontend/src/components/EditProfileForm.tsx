@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface Skill {
   name: string;
@@ -97,7 +98,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
         },
       });
 
-      alert("Profile updated successfully");
+      toast.success("Profile updated successfully");
       onSuccess(); // Call the success callback
     } catch (error) {
       console.error("Error updating profile:", error);
