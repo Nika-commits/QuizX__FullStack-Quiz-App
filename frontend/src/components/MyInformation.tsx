@@ -1,7 +1,7 @@
 import "../assets/css/myInformation.css";
 
 function MyInformation({
-  id,
+  // id,
   name,
   email,
   age,

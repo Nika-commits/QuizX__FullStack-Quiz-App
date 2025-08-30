@@ -12,7 +12,6 @@ import AttemptQuizPage from "./pages/QuestionSet/AttemptQuizPage";
 import CreateQuestionSetPage from "./pages/QuestionSet/CreateQuestionSetPage";
 import ListQuestionSetPage from "./pages/QuestionSet/ListQuestionSetPage";
 import RegisterPage from "./pages/RegisterPage";
-// Remove ViewUserProfile import - we're using ProfilePage for everything now
 
 export interface IAuthState {
   isAuth: boolean;

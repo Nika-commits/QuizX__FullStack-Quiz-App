@@ -4,6 +4,8 @@ const {
   getQuestionSetController,
   saveAttemptedQuestionController,
   deleteQuestionSetController,
+  getUserQuizStatsController,
+  getUserQuizAttemptsController,
 } = require("../controller/questionController");
 const { validateTokenMiddleware } = require("../middleware/AuthMiddleware");
 var router = express.Router();
@@ -22,4 +24,14 @@ router.delete(
   deleteQuestionSetController
 );
 
+router.get(
+  "/quiz-attempts/:userId",
+  validateTokenMiddleware,
+  getUserQuizAttemptsController
+);
+router.get(
+  "/quiz-stats/:userId",
+  validateTokenMiddleware,
+  getUserQuizStatsController
+);
 module.exports = router;

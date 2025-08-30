@@ -620,7 +620,7 @@ export default function UnAuthHomePage() {
                 />
               </svg>
               <span className="text-xl font-bold text-gray-800 dark:text-white">
-                QuizApp
+                QuizX
               </span>
             </div>
             <p className="text-gray-600 dark:text-gray-400">

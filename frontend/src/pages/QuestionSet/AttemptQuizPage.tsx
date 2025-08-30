@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import AttemptQuizForm from "../../components/QuestionSet/AttemptQuizForm";
 
 export interface IAttempQuestionForm {
@@ -31,45 +31,104 @@ export interface IChoice {
 }
 
 function AttemptQuizPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
-  const [questionSets, setQuestionSet] = useState<IAttempQuestionForm>([]);
+  // Fixed: Initialize as null instead of empty array, and use proper type
+  const [questionSet, setQuestionSet] = useState<IAttempQuestionForm | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const Navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  // Wrap fetchData in useCallback to prevent unnecessary re-renders
+  const fetchData = useCallback(async () => {
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken || !id) {
       setIsLoading(false);
+      setError("Missing authentication token or quiz ID");
       return;
     }
 
-    async function fetchData() {
-      axios
-        .get(`http://localhost:3000/api/questions/set/${id}`, {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/questions/set/${id}`,
+        {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        })
-        .then((response) => {
-          setQuestionSet(response?.data);
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          setIsLoading(false);
-        });
-    }
+        }
+      );
 
-    fetchData();
+      setQuestionSet(response?.data);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching question set:", err);
+      setError("Failed to load quiz. Please try again.");
+      setQuestionSet(null);
+    } finally {
+      setIsLoading(false);
+    }
   }, [id]);
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading quiz...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Error Loading Quiz
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
+            <button
+              onClick={() => {
+                setError(null);
+                fetchData();
+              }}
+              className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!questionSet) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Quiz Not Found
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              The quiz you're looking for could not be found.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div>
-      {questionSets ? <AttemptQuizForm questionSet={questionSets} /> : null}
+      <AttemptQuizForm questionSet={questionSet} />
     </div>
   );
 }

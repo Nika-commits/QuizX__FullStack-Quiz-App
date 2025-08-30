@@ -32,9 +32,12 @@ function AuthHomePage() {
         });
         const UserList: IAuthUserList[] = response?.data?.users || [];
         setUsers(UserList);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error:", error);
-        const errors = error?.response?.data?.message || "An error occurred";
+        let errors = "An error occurred";
+        if (axios.isAxiosError(error)) {
+          errors = error?.response?.data?.message || "An error occurred";
+        }
         alert(errors);
       } finally {
         setLoading(false);
