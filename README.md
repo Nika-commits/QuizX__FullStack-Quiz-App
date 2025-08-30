@@ -98,40 +98,6 @@ npm run dev
 
 The frontend application will start on `http://localhost:5173`
 
-### Authentication
-
-```
-POST /auth/register          # User registration
-POST /auth/login            # User authentication
-GET  /auth/verify           # Token verification
-```
-
-### User Management
-
-```
-GET  /users/list            # Get all users (authenticated)
-GET  /users/profile/:id     # Get specific user profile
-PUT  /users/profile/:id     # Update user profile
-```
-
-### Quiz Management
-
-```
-GET  /api/questions/        # Get all question sets
-POST /api/questions/        # Create new question set
-GET  /api/questions/:id     # Get specific question set
-PUT  /api/questions/:id     # Update question set
-DELETE /api/questions/:id   # Delete question set
-```
-
-### Quiz Attempts
-
-```
-POST /api/questions/answer/attempt  # Submit quiz answers
-GET  /api/attempts/user/:userId     # Get user's quiz attempts
-GET  /api/attempts/quiz/:quizId     # Get attempts for specific quiz
-```
-
 ## Security Features
 
 - **JWT Authentication**: Secure token-based authentication
@@ -140,12 +106,36 @@ GET  /api/attempts/quiz/:quizId     # Get attempts for specific quiz
 - **CORS Configuration**: Proper cross-origin resource sharing setup
 - **Secure Headers**: Security headers for API protection
 
-```
-
-```
-
 ### Database Setup
 
 - Set up MongoDB Atlas for cloud database
 - Configure connection strings for different environments
 - Set up database indexes for optimal performance
+
+### Screenshots
+
+## Features
+
+### UnAuthHome Page System
+
+![UnAuth HomePage](./screenshots/UnAuthHomePage.png)
+
+### Auth Home Page
+
+![Auth HomePage](<./screenshots/AuthHomePage(admin).png>)
+
+### Profile Page (Admin View)
+
+![Profile Page](<./screenshots/ProfilePage(adminView).png>)
+
+### Question Set Dashboard
+
+![Question Set](<./screenshots/QuestionSet(adminView).png>)
+
+### Create Question Set
+
+![Create Question Set](<./screenshots/CreateQuestionSet(adminOnly).png>)
+
+### Take Quix Page
+
+![Take Quiz Page](./screenshots/TakeQuizPage.png)
