@@ -23,7 +23,7 @@ router.delete(
 );
 
 router.put(
-  "/edit",
+  "/edit/:id",
   validateTokenMiddleware,
   adminOnlyMiddleware,
   editUserController

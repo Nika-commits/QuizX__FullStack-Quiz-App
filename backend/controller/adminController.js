@@ -50,31 +50,62 @@ async function deleteUserController(req, res) {
   }
 }
 
+// async function editUserController(req, res) {
+//   try {
+//     const id = req.params.id;
+//     const updatedData = req.body;
+
+//     // Check if user exists
+//     const user = await User.findById(id);
+//     if (!user) {
+//       return res.status(404).json({
+//         message: "User not found",
+//       });
+//     }
+
+//     // Update user data
+//     const updatedUser = await User.findByIdAndUpdate(id, updatedData, {
+//       new: true,
+//     });
+
+//     res.status(200).json({
+//       message: "User Updated Successfully",
+//       user: updatedUser,
+//     });
+//   } catch (error) {
+//     console.error("Edit user error:", error);
+//     res.status(500).json({
+//       message: "Internal Server Error",
+//       error: error.message,
+//     });
+//   }
+// }
+
 async function editUserController(req, res) {
   try {
-    // const userId = req.params.id;
+    const userId = req.params.id; // the target user's ID
     const updatedData = req.body;
-    const id = req.body.id;
 
-    // Check if user exists
-    const user = await User.findById(id);
-    if (!user) {
-      return res.status(404).json({
-        message: "User not found",
-      });
+    // Remove user field to prevent overwriting
+    delete updatedData.user;
+
+    // Update the profile document
+    const updatedProfile = await Profile.findOneAndUpdate(
+      { user: userId },
+      updatedData,
+      { new: true, runValidators: true, upsert: true } // upsert ensures profile is created if missing
+    ).populate("user", "-password");
+
+    if (!updatedProfile) {
+      return res.status(404).json({ message: "Profile not found" });
     }
 
-    // Update user data
-    const updatedUser = await User.findByIdAndUpdate(id, updatedData, {
-      new: true,
-    });
-
     res.status(200).json({
-      message: "User Updated Successfully",
-      user: updatedUser,
+      message: "Profile updated successfully",
+      profile: updatedProfile,
     });
   } catch (error) {
-    console.error("Edit user error:", error);
+    console.error("Edit profile error:", error);
     res.status(500).json({
       message: "Internal Server Error",
       error: error.message,

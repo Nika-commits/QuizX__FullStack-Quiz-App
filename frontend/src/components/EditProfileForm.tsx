@@ -88,7 +88,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({
       // Determine the endpoint based on whether it's admin editing or user editing
       const endpoint =
         isAdmin && targetUserId
-          ? `http://localhost:3000/admin/users/${targetUserId}/profile`
+          ? `http://localhost:3000/api/admin/edit/${targetUserId}`
           : "http://localhost:3000/users/profile/me";
 
       await axios.put(endpoint, data, {

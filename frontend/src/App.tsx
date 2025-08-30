@@ -2,6 +2,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { createContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import AuthHomePage from "./components/HomePage/AuthHomePage";
 import Navbar from "./components/Navbar";
 import AboutUsPage from "./pages/AboutUsPage";
@@ -145,6 +146,15 @@ function App() {
           />
         </Routes>
       </AuthContext.Provider>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 }

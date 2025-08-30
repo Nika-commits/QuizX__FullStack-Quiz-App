@@ -48,7 +48,7 @@ function CreateQuestionSetForm() {
         alert("Question set Created");
         Navigate("/questionset/list");
       })
-      .catch((err) => {
+      .catch(() => {
         alert("Could not Create Question Set");
       });
   };

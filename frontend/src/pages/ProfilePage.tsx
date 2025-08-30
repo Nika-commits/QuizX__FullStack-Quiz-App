@@ -346,11 +346,11 @@ const ProfilePage: React.FC = () => {
               <div className="text-center sm:text-left">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
                   {profile.user.name}
-                  {currentUserIsAdmin && userId && (
+                  {/* {currentUserIsAdmin && userId && (
                     <span className="text-sm text-gray-500 ml-2">
                       (Admin View)
                     </span>
-                  )}
+                  )} */}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
                   {profile.user.email}

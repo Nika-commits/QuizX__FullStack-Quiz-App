@@ -7,7 +7,7 @@ function LoginForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const { isAuth, setAuthState } = useContext<IAuthContext>(AuthContext);
+  const { setAuthState } = useContext<IAuthContext>(AuthContext);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

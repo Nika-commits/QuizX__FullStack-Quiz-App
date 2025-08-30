@@ -101,7 +101,7 @@ function ListQuestionSet() {
           Available Question Sets
         </h1>
 
-        {questionSets.map((question, index) => (
+        {questionSets.map((question) => (
           <div
             key={question._id}
             className="flex justify-between items-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-[1.02]"
