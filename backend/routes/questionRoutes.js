@@ -6,6 +6,7 @@ const {
   deleteQuestionSetController,
   getUserQuizStatsController,
   getUserQuizAttemptsController,
+  getLeaderboard,
 } = require("../controller/questionController");
 const { validateTokenMiddleware } = require("../middleware/AuthMiddleware");
 var router = express.Router();
@@ -34,4 +35,6 @@ router.get(
   validateTokenMiddleware,
   getUserQuizStatsController
 );
+
+router.get("/leaderboard", validateTokenMiddleware, getLeaderboard);
 module.exports = router;

@@ -79,6 +79,14 @@ function Navbar() {
                   Create Question Set
                 </NavLink>
               )}
+              <NavLink
+                to="/leaderboard"
+                className={({ isActive }) =>
+                  isActive ? "nav-active" : "nav-link"
+                }
+              >
+                Leaderboard
+              </NavLink>
             </>
           )}
         </div>

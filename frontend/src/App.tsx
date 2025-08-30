@@ -6,6 +6,7 @@ import AuthHomePage from "./components/HomePage/AuthHomePage";
 import Navbar from "./components/Navbar";
 import AboutUsPage from "./pages/AboutUsPage";
 import HomePage from "./pages/HomePage";
+import LeaderboardPage from "./pages/LeaderboardPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import AttemptQuizPage from "./pages/QuestionSet/AttemptQuizPage";
@@ -119,6 +120,7 @@ function App() {
                 path="/questionset/:id/attempt"
                 element={<AttemptQuizPage />}
               />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
             </>
           )}
 

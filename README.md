@@ -139,3 +139,7 @@ The frontend application will start on `http://localhost:5173`
 ### Take Quix Page
 
 ![Take Quiz Page](./screenshots/TakeQuizPage.png)
+
+### Leaderboard Page
+
+![LeaderBoard Page](./screenshots/Leaderboard.png)

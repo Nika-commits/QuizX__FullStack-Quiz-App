@@ -153,10 +153,10 @@ async function getUserQuizAttemptsController(req, res) {
     } else {
       targetUserId = userId;
 
-      // Check permissions: users can only view their own attempts unless they're admin
-      if (currentUserId !== targetUserId && currentUserRole !== "admin") {
+      // ✅ Only restrict if role is something other than admin or professional
+      if (!["admin", "professional"].includes(currentUserRole)) {
         return res.status(403).json({
-          message: "Access denied. You can only view your own quiz attempts.",
+          message: "Access denied.",
         });
       }
     }
@@ -317,6 +317,79 @@ async function getUserQuizStatsController(req, res) {
     });
   }
 }
+
+async function getLeaderboard(req, res) {
+  try {
+    const leaderboard = await AnswerModel.aggregate([
+      {
+        $group: {
+          _id: "$user",
+          totalQuizzes: { $sum: 1 },
+          totalScore: { $sum: "$score" },
+          totalQuestions: { $sum: "$total" },
+          averagePercentage: {
+            $avg: {
+              $cond: [
+                { $gt: ["$total", 0] },
+                { $divide: ["$score", "$total"] },
+                0,
+              ],
+            },
+          },
+          highestPercentage: {
+            $max: {
+              $cond: [
+                { $gt: ["$total", 0] },
+                { $divide: ["$score", "$total"] },
+                0,
+              ],
+            },
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "users", // collection name in MongoDB
+          localField: "_id",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      { $unwind: "$user" },
+      {
+        $project: {
+          _id: 1,
+          name: "$user.name",
+          email: "$user.email",
+          totalQuizzes: 1,
+          totalScore: 1,
+          totalQuestions: 1,
+          averagePercentage: { $multiply: ["$averagePercentage", 100] },
+          highestPercentage: { $multiply: ["$highestPercentage", 100] },
+        },
+      },
+      { $sort: { averagePercentage: -1 } }, // sort by avg %
+      { $limit: 50 },
+    ]);
+
+    // assign ranks
+    leaderboard.forEach((user, i) => {
+      user.rank = i + 1;
+    });
+
+    res.status(200).json({
+      message: "Leaderboard retrieved successfully",
+      leaderboard,
+    });
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+    res.status(500).json({
+      message: "Error retrieving leaderboard",
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   listQuestionSetController,
   getQuestionSetController,
@@ -324,4 +397,5 @@ module.exports = {
   deleteQuestionSetController,
   getUserQuizAttemptsController,
   getUserQuizStatsController,
+  getLeaderboard,
 };
