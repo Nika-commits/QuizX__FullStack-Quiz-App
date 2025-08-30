@@ -160,7 +160,7 @@ function Leaderboard() {
   if (error) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto px-4">
+        <div className="text-center max-w-md mx-auto px-4 animate-fade-in">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Error Loading Leaderboard
@@ -168,7 +168,7 @@ function Leaderboard() {
             <p className="text-gray-600 dark:text-gray-400 mb-6">{error}</p>
             <button
               onClick={fetchLeaderboard}
-              className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
+              className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200 transform hover:scale-105"
             >
               Try Again
             </button>
@@ -181,18 +181,22 @@ function Leaderboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
+        {/* Animated Header */}
+        <div className="text-center mb-8 animate-slide-down">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Quiz Leaderboard
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
             See how you rank against other quiz takers
           </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-500 mx-auto rounded-full mt-4"></div>
         </div>
 
-        {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 border border-gray-200 dark:border-gray-700">
+        {/* Animated Filters */}
+        <div
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 border border-gray-200 dark:border-gray-700 animate-fade-in-up"
+          style={{ animationDelay: "200ms" }}
+        >
           <div className="flex flex-wrap gap-4 items-center justify-center">
             {/* Timeframe Filter */}
             <div className="flex items-center gap-2">
@@ -208,7 +212,7 @@ function Leaderboard() {
                       .value as LeaderboardFilters["timeframe"],
                   })
                 }
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-400"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-400 transition-all duration-200"
               >
                 <option value="all">All Time</option>
                 <option value="year">This Year</option>
@@ -230,7 +234,7 @@ function Leaderboard() {
                     sortBy: e.target.value as LeaderboardFilters["sortBy"],
                   })
                 }
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-400"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-400 transition-all duration-200"
               >
                 <option value="average">Average Score</option>
                 <option value="total">Total Score</option>
@@ -251,7 +255,7 @@ function Leaderboard() {
                     limit: parseInt(e.target.value),
                   })
                 }
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-400"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-yellow-400 transition-all duration-200"
               >
                 <option value={10}>Top 10</option>
                 <option value={25}>Top 25</option>
@@ -264,7 +268,7 @@ function Leaderboard() {
 
         {/* Leaderboard Content */}
         {users.length === 0 ? (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12 border border-gray-200 dark:border-gray-700">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12 border border-gray-200 dark:border-gray-700 animate-fade-in">
             <div className="text-center">
               <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
                 <svg
@@ -289,7 +293,7 @@ function Leaderboard() {
               </p>
               <button
                 onClick={() => navigate("/questionset/list")}
-                className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
+                className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200 transform hover:scale-105"
               >
                 Take a Quiz
               </button>
@@ -297,16 +301,22 @@ function Leaderboard() {
           </div>
         ) : (
           <div className="space-y-6">
-            {/* Top 3 Podium */}
+            {/* Animated Top 3 Podium */}
             {users.length >= 3 && (
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 mb-8">
+              <div
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 mb-8 animate-fade-in-up"
+                style={{ animationDelay: "300ms" }}
+              >
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
                   Top Performers
                 </h2>
                 <div className="flex items-end justify-center gap-4 md:gap-8">
                   {/* Second Place */}
                   {users[1] && (
-                    <div className="text-center">
+                    <div
+                      className="text-center animate-fade-in-up"
+                      style={{ animationDelay: "400ms" }}
+                    >
                       <div className="relative mb-4">
                         <div
                           className="w-20 h-20 bg-gradient-to-r from-gray-300 to-gray-400 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg cursor-pointer hover:scale-105 transition-transform"
@@ -330,7 +340,10 @@ function Leaderboard() {
                   )}
 
                   {/* First Place */}
-                  <div className="text-center">
+                  <div
+                    className="text-center animate-fade-in-up"
+                    style={{ animationDelay: "300ms" }}
+                  >
                     <div className="relative mb-4">
                       <div
                         className="w-24 h-24 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg cursor-pointer hover:scale-105 transition-transform"
@@ -352,7 +365,10 @@ function Leaderboard() {
 
                   {/* Third Place */}
                   {users[2] && (
-                    <div className="text-center">
+                    <div
+                      className="text-center animate-fade-in-up"
+                      style={{ animationDelay: "500ms" }}
+                    >
                       <div className="relative mb-4">
                         <div
                           className="w-20 h-20 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-lg cursor-pointer hover:scale-105 transition-transform"
@@ -378,8 +394,11 @@ function Leaderboard() {
               </div>
             )}
 
-            {/* Full Leaderboard Table */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+            {/* Animated Full Leaderboard Table */}
+            <div
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in-up"
+              style={{ animationDelay: "400ms" }}
+            >
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   Rankings
@@ -414,7 +433,8 @@ function Leaderboard() {
                     {users.map((user, index) => (
                       <tr
                         key={user._id}
-                        className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors duration-200"
+                        className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-all duration-300 transform hover:scale-[1.01] animate-fade-in-up"
+                        style={{ animationDelay: `${500 + index * 100}ms` }}
                         onClick={() => handleUserClick(user._id)}
                       >
                         {/* Rank */}
@@ -423,7 +443,7 @@ function Leaderboard() {
                             <div
                               className={`w-10 h-10 rounded-full bg-gradient-to-r ${getRankColor(
                                 user.rank
-                              )} flex items-center justify-center mr-3`}
+                              )} flex items-center justify-center mr-3 shadow-lg hover:scale-110 transition-transform`}
                             >
                               {user.rank <= 3 ? (
                                 getRankIcon(user.rank)
@@ -439,7 +459,7 @@ function Leaderboard() {
                         {/* User Info */}
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold mr-4">
+                            <div className="w-12 h-12 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white font-bold mr-4 hover:scale-110 transition-transform">
                               {getInitials(user.name)}
                             </div>
                             <div>
@@ -501,10 +521,16 @@ function Leaderboard() {
               </div>
             </div>
 
-            {/* Stats Summary */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-700">
+            {/* Animated Stats Summary */}
+            <div
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-700 animate-fade-in-up"
+              style={{ animationDelay: "600ms" }}
+            >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                <div>
+                <div
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: "700ms" }}
+                >
                   <div className="text-3xl font-bold text-yellow-500 mb-2">
                     {users.length}
                   </div>
@@ -512,7 +538,10 @@ function Leaderboard() {
                     Active Quiz Takers
                   </div>
                 </div>
-                <div>
+                <div
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: "800ms" }}
+                >
                   <div className="text-3xl font-bold text-blue-500 mb-2">
                     {users.reduce((sum, user) => sum + user.totalQuizzes, 0)}
                   </div>
@@ -520,7 +549,10 @@ function Leaderboard() {
                     Total Quizzes Completed
                   </div>
                 </div>
-                <div>
+                <div
+                  className="animate-fade-in-up"
+                  style={{ animationDelay: "900ms" }}
+                >
                   <div className="text-3xl font-bold text-green-500 mb-2">
                     {users.length > 0
                       ? (
@@ -541,6 +573,55 @@ function Leaderboard() {
           </div>
         )}
       </div>
+
+      {/* Animation styles */}
+      <style>
+        {`
+          @keyframes fade-in-up {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          @keyframes fade-in {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+
+          @keyframes slide-down {
+            from {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+            opacity: 0;
+          }
+
+          .animate-fade-in {
+            animation: fade-in 0.6s ease-out forwards;
+          }
+
+          .animate-slide-down {
+            animation: slide-down 0.6s ease-out forwards;
+          }
+        `}
+      </style>
     </div>
   );
 }

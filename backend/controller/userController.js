@@ -69,7 +69,7 @@ async function loginHandleController(req, res) {
       },
       process.env.AUTH_SECRET_KEY,
       {
-        expiresIn: "1h",
+        expiresIn: "1d",
       }
     );
 

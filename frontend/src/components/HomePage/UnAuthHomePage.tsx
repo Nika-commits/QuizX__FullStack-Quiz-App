@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../../index.css";
 
 export default function UnAuthHomePage() {
   const [isVisible, setIsVisible] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsVisible(true);
@@ -16,7 +19,10 @@ export default function UnAuthHomePage() {
         <div className="absolute right-0 top-0 w-1/3 h-full overflow-hidden pointer-events-none hidden lg:block">
           <svg className="absolute w-full h-full" viewBox="0 0 400 800">
             {/* Realistic Person Reading - More detailed and proportional */}
-            <g className="animate-pulse" style={{ animationDuration: "4s" }}>
+            <g
+              className="animate-pulse animate-[slideInRight_0.7s_ease-out_0.2s_forwards]"
+              style={{ animationDuration: "4s" }}
+            >
               {/* Person's body - more realistic proportions */}
               <ellipse
                 cx="200"
@@ -141,7 +147,7 @@ export default function UnAuthHomePage() {
 
             {/* Floating Knowledge Bubbles - repositioned */}
             <g
-              className="animate-bounce"
+              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
               style={{ animationDelay: "0s", animationDuration: "5s" }}
             >
               <circle
@@ -160,7 +166,7 @@ export default function UnAuthHomePage() {
             </g>
 
             <g
-              className="animate-bounce"
+              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.6s_forwards]"
               style={{ animationDelay: "2s", animationDuration: "4s" }}
             >
               <circle
@@ -187,7 +193,7 @@ export default function UnAuthHomePage() {
             </g>
 
             <g
-              className="animate-bounce"
+              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.8s_forwards]"
               style={{ animationDelay: "1s", animationDuration: "6s" }}
             >
               <circle
@@ -207,7 +213,7 @@ export default function UnAuthHomePage() {
 
             {/* Realistic Lightbulb */}
             <g
-              className="animate-pulse"
+              className="animate-pulse animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
               style={{ animationDelay: "0.5s", animationDuration: "3s" }}
             >
               <circle
@@ -273,7 +279,7 @@ export default function UnAuthHomePage() {
 
             {/* Realistic Stack of Books */}
             <g
-              className="animate-bounce"
+              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.6s_forwards]"
               style={{ animationDelay: "1.5s", animationDuration: "4s" }}
             >
               <rect
@@ -335,7 +341,7 @@ export default function UnAuthHomePage() {
 
             {/* Realistic Graduation Cap */}
             <g
-              className="animate-pulse"
+              className="animate-pulse animate-[slideInRight_0.7s_ease-out_0.8s_forwards]"
               style={{ animationDelay: "2.5s", animationDuration: "3s" }}
             >
               <rect
@@ -369,7 +375,7 @@ export default function UnAuthHomePage() {
             <text
               x="50"
               y="100"
-              className="text-3xl fill-yellow-300 dark:fill-yellow-700 opacity-20 animate-bounce"
+              className="text-3xl fill-yellow-300 dark:fill-yellow-700 opacity-20 animate-bounce animate-[slideInRight_0.7s_ease-out_0.2s_forwards]"
               style={{ animationDelay: "0s", animationDuration: "3s" }}
             >
               ?
@@ -377,7 +383,7 @@ export default function UnAuthHomePage() {
             <text
               x="350"
               y="700"
-              className="text-2xl fill-blue-300 dark:fill-blue-700 opacity-20 animate-bounce"
+              className="text-2xl fill-blue-300 dark:fill-blue-700 opacity-20 animate-bounce animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
               style={{ animationDelay: "2s", animationDuration: "3.5s" }}
             >
               ?
@@ -386,7 +392,7 @@ export default function UnAuthHomePage() {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 py-24 lg:py-32 relative z-10">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center animate-fade-in-right">
             <div
               className={`text-center lg:text-left space-y-8 transition-all duration-1000 ${
                 isVisible
@@ -403,13 +409,11 @@ export default function UnAuthHomePage() {
                 Test Your Knowledge
               </div>
               <h1
-                className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold
-  text-gray-800 dark:text-white
-  leading-tight sm:leading-snug lg:leading-[1.15]
-  tracking-tight text-balance max-w-2xl mx-auto lg:mx-0
-  transition-all duration-1000 ${
-    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-  }`}
+                className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 dark:text-white leading-tight sm:leading-snug lg:leading-[1.15] tracking-tight text-balance max-w-2xl mx-auto lg:mx-0 transition-all duration-1000 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-10"
+                }`}
                 style={{ animationDelay: "0.4s" }}
               >
                 Elevate Your Knowledge with{" "}
@@ -419,12 +423,11 @@ export default function UnAuthHomePage() {
               </h1>
 
               <p
-                className={`text-lg sm:text-xl text-gray-600 dark:text-gray-400
-  leading-relaxed sm:leading-loose
-  max-w-xl mx-auto lg:mx-0 text-pretty
-  transition-all duration-1000 ${
-    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-  }`}
+                className={`text-lg sm:text-xl text-gray-600 dark:text-gray-400 leading-relaxed sm:leading-loose max-w-xl mx-auto lg:mx-0 text-pretty transition-all duration-1000 ${
+                  isVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-10"
+                }`}
                 style={{ animationDelay: "0.6s" }}
               >
                 Challenge yourself with engaging quizzes across diverse topics.
@@ -435,13 +438,13 @@ export default function UnAuthHomePage() {
               <div
                 className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center transition-all duration-1000 ${
                   isVisible
-                    ? "opacity-100 translate-y-0"
+                    ? "opacity-100 translate-y-0 animate-[scaleIn_0.5s_ease-out_0.9s_forwards]"
                     : "opacity-0 translate-y-10"
                 }`}
                 style={{ animationDelay: "0.8s" }}
               >
                 <button
-                  onClick={() => (window.location.href = "/register")}
+                  onClick={() => navigate("/register")}
                   className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 hover:scale-110 hover:shadow-2xl text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg group"
                 >
                   Start Quizzing Today
@@ -460,8 +463,8 @@ export default function UnAuthHomePage() {
                   </svg>
                 </button>
                 <button
-                  onClick={() => (window.location.href = "/login")}
-                  className="px-8 py-3 bg-blue-500 hover:bg-blue-600 hover:scale-110 hover:shadow-2xl text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg"
+                  onClick={() => navigate("/login")}
+                  className="px-8 py-3 bg-blue-500 hover:bg-blue-600 hover:scale-110 hover:shadow-2xl text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg animate-[scaleIn_0.5s_ease-out_1.0s_forwards]"
                 >
                   Sign In
                 </button>
@@ -477,7 +480,7 @@ export default function UnAuthHomePage() {
 
       {/* Features Section */}
       <section className="py-24 bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 fadeInUp">
           <div
             className={`text-center mb-16 transition-all duration-1000 ${
               isVisible
@@ -496,12 +499,11 @@ export default function UnAuthHomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div
-              className={`bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl hover:scale-105 transition-all duration-500 border-l-4 border-yellow-400 group ${
+              className={`bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl hover:scale-105 transition-all duration-500 border-l-4 border-yellow-400 group animate-[scaleIn_0.5s_ease-out_1.2s_forwards] ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
-              style={{ animationDelay: "1.2s" }}
             >
               <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-spin transition-all duration-500">
                 <svg
@@ -528,12 +530,11 @@ export default function UnAuthHomePage() {
             </div>
 
             <div
-              className={`bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl hover:scale-105 transition-all duration-500 border-l-4 border-blue-400 group ${
+              className={`bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl hover:scale-105 transition-all duration-500 border-l-4 border-blue-400 group animate-[scaleIn_0.5s_ease-out_1.4s_forwards] ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
-              style={{ animationDelay: "1.4s" }}
             >
               <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-pulse transition-all duration-500">
                 <svg
@@ -560,12 +561,11 @@ export default function UnAuthHomePage() {
             </div>
 
             <div
-              className={`bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl hover:scale-105 transition-all duration-500 border-l-4 border-green-400 group ${
+              className={`bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg text-center hover:shadow-2xl hover:scale-105 transition-all duration-500 border-l-4 border-green-400 group animate-[scaleIn_0.5s_ease-out_1.6s_forwards] ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
-              style={{ animationDelay: "1.6s" }}
             >
               <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:animate-bounce transition-all duration-500">
                 <svg
@@ -598,7 +598,7 @@ export default function UnAuthHomePage() {
       <footer className="py-12 bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 border-t border-gray-200 dark:border-gray-700">
         <div className="max-w-6xl mx-auto px-4">
           <div
-            className={`text-center space-y-4 transition-all duration-1000 ${
+            className={`text-center space-y-4 transition-all duration-1000 animate-[slideInUp_0.6s_ease-out_2.0s_forwards] ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-10"
@@ -628,21 +628,21 @@ export default function UnAuthHomePage() {
             </p>
             <div className="flex justify-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
               <button
-                onClick={() => (window.location.href = "/about")}
+                onClick={() => navigate("/about")}
                 className="hover:text-yellow-400 hover:scale-105 transition-all duration-300 bg-transparent border-none cursor-pointer"
               >
                 About Us
               </button>
               <span>•</span>
               <button
-                onClick={() => (window.location.href = "#")}
+                onClick={() => navigate("#")}
                 className="hover:text-yellow-400 hover:scale-105 transition-all duration-300 bg-transparent border-none cursor-pointer"
               >
                 Privacy Policy
               </button>
               <span>•</span>
               <button
-                onClick={() => (window.location.href = "#")}
+                onClick={() => navigate("#")}
                 className="hover:text-yellow-400 hover:scale-105 transition-all duration-300 bg-transparent border-none cursor-pointer"
               >
                 Terms of Service

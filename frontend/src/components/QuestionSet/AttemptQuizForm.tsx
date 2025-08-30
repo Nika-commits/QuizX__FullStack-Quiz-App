@@ -7,6 +7,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import type { IAttempQuestionForm } from "../../pages/QuestionSet/AttemptQuizPage";
 
 export interface IAttemptQuizFinalData {
@@ -30,7 +31,7 @@ function AttemptQuizForm({
   const [result, setResult] = useState<{ score: number; total: number } | null>(
     null
   );
-  const { watch, register, handleSubmit } = methods;
+  const { watch, handleSubmit } = methods;
   console.log("form values => ", watch());
   const navigate = useNavigate();
   const onSubmitHandler = (data: IAttempQuestionForm) => {
@@ -60,13 +61,13 @@ function AttemptQuizForm({
       })
       .then((res) => {
         console.log("Response:", res.data); // ✅ Debug log
-        alert("Answer Set Updated Successfully");
+        toast.success("Answer Set Updated Successfully");
         setResult(res.data.data);
         // navigate("/questionset/list");
       })
       .catch((err) => {
         console.error("Error:", err); // ✅ Debug log
-        alert("Error submitting answers");
+        toast.error("Error submitting answers");
       });
   };
 

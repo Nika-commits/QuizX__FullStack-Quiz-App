@@ -1,21 +1,65 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function AboutUsPage() {
+  const [animatedElements, setAnimatedElements] = useState<Set<string>>(
+    new Set()
+  );
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
   useEffect(() => {
     document.title = "About Us - QuizX";
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elementId = entry.target.getAttribute("data-animate-id");
+            if (elementId) {
+              setAnimatedElements((prev) => new Set([...prev, elementId]));
+            }
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    // Observe all elements with data-animate-id
+    const elementsToObserve = document.querySelectorAll("[data-animate-id]");
+    elementsToObserve.forEach((el) => observerRef.current?.observe(el));
+
+    return () => {
+      observerRef.current?.disconnect();
+    };
   }, []);
+
+  const isAnimated = (id: string) => animatedElements.has(id);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
         <div className="max-w-4xl mx-auto px-4 py-24 lg:py-32">
           <div className="text-center space-y-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 dark:text-white text-balance">
-              About <span className="text-yellow-500">QuizX</span>
+            <h1
+              data-animate-id="hero-title"
+              className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 dark:text-white text-balance transition-all duration-700 ${
+                isAnimated("hero-title")
+                  ? "opacity-100 transform translate-y-0 animate-bounce"
+                  : "opacity-0 transform translate-y-8"
+              }`}
+            >
+              About <span className="text-yellow-500 animate-pulse">QuizX</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-pretty">
+            <p
+              data-animate-id="hero-subtitle"
+              className={`text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-pretty transition-all duration-700 delay-300 ${
+                isAnimated("hero-subtitle")
+                  ? "opacity-100 transform translate-y-0"
+                  : "opacity-0 transform translate-y-8"
+              }`}
+            >
               We're passionate about making learning engaging, accessible, and
               fun for everyone through interactive quizzes and challenges.
             </p>
@@ -27,7 +71,14 @@ export default function AboutUsPage() {
       <section className="py-24 bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <div
+              data-animate-id="mission-text"
+              className={`transition-all duration-700 ${
+                isAnimated("mission-text")
+                  ? "opacity-100 transform translate-x-0"
+                  : "opacity-0 transform -translate-x-8"
+              }`}
+            >
               <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-6">
                 Our Mission
               </h2>
@@ -43,8 +94,15 @@ export default function AboutUsPage() {
                 themselves and discover new interests.
               </p>
             </div>
-            <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg border-l-4 border-yellow-400">
-              <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div
+              data-animate-id="mission-card"
+              className={`bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg border-l-4 border-yellow-400 hover:shadow-2xl hover:scale-105 transition-all duration-500 ${
+                isAnimated("mission-card")
+                  ? "opacity-100 transform translate-x-0"
+                  : "opacity-0 transform translate-x-8"
+              }`}
+            >
+              <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"
@@ -74,7 +132,14 @@ export default function AboutUsPage() {
       {/* Values Section */}
       <section className="py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div
+            data-animate-id="values-header"
+            className={`text-center mb-16 transition-all duration-700 ${
+              isAnimated("values-header")
+                ? "opacity-100 transform scale-100"
+                : "opacity-0 transform scale-95"
+            }`}
+          >
             <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-4">
               Our Core Values
             </h2>
@@ -84,8 +149,15 @@ export default function AboutUsPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition duration-200 border-l-4 border-blue-400">
-              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div
+              data-animate-id="value-1"
+              className={`bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl shadow-lg text-center hover:shadow-xl hover:scale-105 transition-all duration-500 border-l-4 border-blue-400 ${
+                isAnimated("value-1")
+                  ? "opacity-100 transform translate-y-0"
+                  : "opacity-0 transform translate-y-8"
+              }`}
+            >
+              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 hover:animate-pulse transition-all duration-300">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"
@@ -109,8 +181,15 @@ export default function AboutUsPage() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition duration-200 border-l-4 border-green-400">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div
+              data-animate-id="value-2"
+              className={`bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl shadow-lg text-center hover:shadow-xl hover:scale-105 transition-all duration-500 border-l-4 border-green-400 delay-200 ${
+                isAnimated("value-2")
+                  ? "opacity-100 transform translate-y-0"
+                  : "opacity-0 transform translate-y-8"
+              }`}
+            >
+              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 hover:animate-pulse transition-all duration-300">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"
@@ -134,8 +213,15 @@ export default function AboutUsPage() {
               </p>
             </div>
 
-            <div className="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl shadow-lg text-center hover:shadow-xl transition duration-200 border-l-4 border-yellow-400">
-              <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div
+              data-animate-id="value-3"
+              className={`bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-8 rounded-2xl shadow-lg text-center hover:shadow-xl hover:scale-105 transition-all duration-500 border-l-4 border-yellow-400 delay-500 ${
+                isAnimated("value-3")
+                  ? "opacity-100 transform translate-y-0"
+                  : "opacity-0 transform translate-y-8"
+              }`}
+            >
+              <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6 hover:animate-pulse transition-all duration-300">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"
@@ -165,24 +251,33 @@ export default function AboutUsPage() {
       {/* Team Section */}
       <section className="py-24 bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-6">
-            Built by Learners, for Learners
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            Our team consists of educators, developers, and lifelong learners
-            who understand the challenges and joys of acquiring new knowledge.
-            We're dedicated to creating tools that make learning more effective
-            and enjoyable for everyone.
-          </p>
-          <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg border-l-4 border-blue-400">
-            <p className="text-lg text-gray-700 dark:text-gray-300 italic">
-              "We believe that when learning is fun, it becomes unforgettable.
-              That's why every feature we build is designed to spark curiosity
-              and celebrate the joy of discovery."
+          <div
+            data-animate-id="team-content"
+            className={`transition-all duration-700 ${
+              isAnimated("team-content")
+                ? "opacity-100 transform scale-100"
+                : "opacity-0 transform scale-95"
+            }`}
+          >
+            <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-6">
+              Built by Learners, for Learners
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+              Our team consists of educators, developers, and lifelong learners
+              who understand the challenges and joys of acquiring new knowledge.
+              We're dedicated to creating tools that make learning more
+              effective and enjoyable for everyone.
             </p>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-              - The QuizX Team
-            </p>
+            <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 p-8 rounded-2xl shadow-lg border-l-4 border-blue-400 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+              <p className="text-lg text-gray-700 dark:text-gray-300 italic">
+                "We believe that when learning is fun, it becomes unforgettable.
+                That's why every feature we build is designed to spark curiosity
+                and celebrate the joy of discovery."
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
+                - The QuizX Team
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -190,7 +285,14 @@ export default function AboutUsPage() {
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-12 rounded-2xl shadow-lg">
+          <div
+            data-animate-id="cta-content"
+            className={`bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-12 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-700 ${
+              isAnimated("cta-content")
+                ? "opacity-100 transform translate-y-0 "
+                : "opacity-0 transform translate-y-8"
+            }`}
+          >
             <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-800 dark:text-white mb-6">
               Ready to Start Learning?
             </h2>
@@ -201,11 +303,11 @@ export default function AboutUsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => (window.location.href = "/register")}
-                className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 hover:scale-105 text-white font-bold rounded-lg shadow-lg transition duration-200 transform text-lg"
+                className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 hover:scale-110 text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg hover:shadow-2xl "
               >
                 Get Started
                 <svg
-                  className="ml-2 h-5 w-5 inline"
+                  className="ml-2 h-5 w-5 inline transition-transform duration-300 group-hover:translate-x-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -220,7 +322,7 @@ export default function AboutUsPage() {
               </button>
               <button
                 onClick={() => (window.location.href = "/")}
-                className="px-8 py-3 bg-blue-500 hover:bg-blue-600 hover:scale-105 text-white font-bold rounded-lg shadow-lg transition duration-200 transform text-lg"
+                className="px-8 py-3 bg-blue-500 hover:bg-blue-600 hover:scale-110 text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg hover:shadow-2xl"
               >
                 Back to Home
               </button>
