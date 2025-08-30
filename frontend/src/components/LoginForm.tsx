@@ -34,7 +34,7 @@ function LoginForm() {
 
       // Show success toast
       toast.success("User Logged In Successfully", {
-        position: "top-right",
+        position: "bottom-right",
         autoClose: 3000,
       });
 
@@ -48,7 +48,7 @@ function LoginForm() {
       console.error("Login error:", error);
       const message =
         error?.response?.data?.message || "An error occurred. Try again.";
-      toast.error(message, { position: "top-right", autoClose: 3000 });
+      toast.error(message, { position: "bottom-right", autoClose: 3000 });
     }
   };
 

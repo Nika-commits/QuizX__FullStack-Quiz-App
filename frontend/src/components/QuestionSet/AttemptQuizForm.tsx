@@ -69,14 +69,6 @@ function AttemptQuizForm({
         alert("Error submitting answers");
       });
   };
-  // if (result) {
-  //   return (
-  //     <p>
-  //       Your Score is {result?.score || 0} out of {result?.total || 0} question
-  //       attempt.
-  //     </p>
-  //   );
-  // }
 
   if (result) {
     return (
@@ -222,14 +214,20 @@ function AttemptQuizForm({
                   Quiz Assessment
                 </h1>
                 <div className="space-y-4">
-                  <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300">
+                  {/* <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300">
                     Quiz Title
-                  </label>
-                  <input
+                  </label> */}
+                  {/* <input
                     {...register("title")}
                     placeholder="Enter Quiz Title"
                     className="w-full px-6 py-4 bg-gray-50 dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-yellow-400/30 focus:border-yellow-400 transition-all duration-300 text-lg font-medium"
-                  />
+                  /> */}
+                  <h1 className="text-4xl font-extrabold text-gray-900 dark:text-yellow-400 mb-4">
+                    {questionSet.title}
+                  </h1>
+                  {/* <p className="text-gray-600 dark:text-gray-400">
+                    Answer all questions below to complete this quiz
+                  </p> */}
                 </div>
               </div>
             </div>
