@@ -23,11 +23,7 @@ function Navbar() {
       <div className="w-full m-auto p-auto py-6 flex items-center justify-between">
         {/* Left: Logo or placeholder */}
         <div className="ml-12 text-2xl font-bold  p-1 m-1 text-blue-600 dark:text-yellow-400">
-          <img
-            src="../../public/icon.png"
-            alt="QuizX Logo"
-            className="inline-block h-8"
-          />
+          <img src="/icon.png" alt="QuizX Logo" className="inline-block h-8" />
           {"  "}QuizX{" "}
           <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
             Your Quiz Companion

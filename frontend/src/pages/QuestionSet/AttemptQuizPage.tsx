@@ -31,6 +31,10 @@ export interface IChoice {
 }
 
 function AttemptQuizPage() {
+  useEffect(() => {
+    document.title = "Attempt Quiz - QuizX";
+  }, []);
+
   const { id } = useParams<{ id: string }>();
 
   // Fixed: Initialize as null instead of empty array, and use proper type

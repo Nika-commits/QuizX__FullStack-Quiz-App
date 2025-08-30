@@ -57,6 +57,10 @@ interface QuizStats {
 
 // Removed unused isAdmin prop
 const ProfilePage: React.FC = () => {
+  useEffect(() => {
+    document.title = "Profile - QuizX";
+  }, []);
+
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
   const { role } = useContext<IAuthContext>(AuthContext);
