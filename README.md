@@ -12,6 +12,7 @@ A modern full-stack quiz application built with React and TypeScript for the fro
 - **Scoring System**: Automatic grading with detailed score breakdown
 - **User Management**: Browse registered users and view profiles
 - **Progress Tracking**: Track quiz performance and completion rates
+- **Leaderboard**: Track top performers and compete with them
 
 ### UI/UX Features
 
