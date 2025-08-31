@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AboutUsPage() {
   const [animatedElements, setAnimatedElements] = useState<Set<string>>(
     new Set()
   );
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "About Us - QuizX";
@@ -302,7 +304,7 @@ export default function AboutUsPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => (window.location.href = "/register")}
+                onClick={() => navigate("/register")}
                 className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 hover:scale-110 text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg hover:shadow-2xl "
               >
                 Get Started
@@ -321,7 +323,7 @@ export default function AboutUsPage() {
                 </svg>
               </button>
               <button
-                onClick={() => (window.location.href = "/")}
+                onClick={() => navigate("/")}
                 className="px-8 py-3 bg-blue-500 hover:bg-blue-600 hover:scale-110 text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg hover:shadow-2xl"
               >
                 Back to Home
