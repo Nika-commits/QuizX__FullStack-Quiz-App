@@ -29,7 +29,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+    <nav className="sticky top-0 z-50 bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 shadow-md">
       <div className="w-full m-auto p-auto py-6 flex items-center justify-between">
         {/* Left: Logo or placeholder */}
         <div className="ml-4 lg:ml-12 text-xl lg:text-2xl font-bold p-1 m-1 text-blue-600 dark:text-yellow-400">

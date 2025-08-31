@@ -125,9 +125,9 @@ function ListQuestionSet() {
 
   if (questionSets.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg text-center animate-fade-in">
-          <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 flex items-center justify-center">
+        <div className="p-8 rounded-2xl shadow-lg text-center animate-fade-in">
+          <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg
               className="w-10 h-10 text-gray-400"
               fill="none"
@@ -154,7 +154,7 @@ function ListQuestionSet() {
   }
 
   return (
-    <div className="min-h-screen py-8 bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
       <div className="max-w-4xl mx-auto px-4 space-y-6">
         {/* Animated header */}
         <div className="text-center animate-slide-down">
