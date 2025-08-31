@@ -14,6 +14,11 @@ A modern full-stack quiz application built with React and TypeScript for the fro
 - **Progress Tracking**: Track quiz performance and completion rates
 - **Leaderboard**: Track top performers and compete with them
 
+### Admin Credentials
+
+- *admin@gmail.com*
+- _admin_
+
 ### UI/UX Features
 
 - **Modern Design**: Beautiful gradient backgrounds and card-based layouts
