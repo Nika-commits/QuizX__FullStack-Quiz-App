@@ -177,7 +177,7 @@ async function getUserQuizAttemptsController(req, res) {
         path: "questionSet",
         select: "title description",
       })
-      .sort({ createdAt: -1 }) // Most recent first
+      .sort({ submittedAt: -1 }) // ✅ Changed from createdAt to submittedAt
       .lean(); // Use lean() for better performance
 
     console.log("Found attempts:", attempts.length); // Debug log
@@ -196,7 +196,7 @@ async function getUserQuizAttemptsController(req, res) {
         attempt.total > 0
           ? Math.round((attempt.score / attempt.total) * 100)
           : 0,
-      attemptedAt: attempt.createdAt,
+      attemptedAt: attempt.submittedAt, // ✅ Changed from createdAt to submittedAt
       responses: attempt.responses || [],
     }));
 
@@ -213,7 +213,6 @@ async function getUserQuizAttemptsController(req, res) {
     });
   }
 }
-
 // Get quiz attempt statistics for a user
 async function getUserQuizStatsController(req, res) {
   try {
