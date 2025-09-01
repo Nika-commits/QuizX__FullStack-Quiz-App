@@ -20,7 +20,7 @@ export default function UnAuthHomePage() {
           <svg className="absolute w-full h-full" viewBox="0 0 400 800">
             {/* Realistic Person Reading - More detailed and proportional */}
             <g
-              className="animate-pulse animate-[slideInRight_0.7s_ease-out_0.2s_forwards]"
+              className=" animate-[slideInRight_0.7s_ease-out_0.2s_forwards]"
               style={{ animationDuration: "4s" }}
             >
               {/* Person's body - more realistic proportions */}
@@ -147,7 +147,7 @@ export default function UnAuthHomePage() {
 
             {/* Floating Knowledge Bubbles - repositioned */}
             <g
-              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
+              className=" animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
               style={{ animationDelay: "0s", animationDuration: "5s" }}
             >
               <circle
@@ -166,7 +166,7 @@ export default function UnAuthHomePage() {
             </g>
 
             <g
-              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.6s_forwards]"
+              className="animate-[slideInRight_0.7s_ease-out_0.6s_forwards]"
               style={{ animationDelay: "2s", animationDuration: "4s" }}
             >
               <circle
@@ -193,7 +193,7 @@ export default function UnAuthHomePage() {
             </g>
 
             <g
-              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.8s_forwards]"
+              className=" animate-[slideInRight_0.7s_ease-out_0.8s_forwards]"
               style={{ animationDelay: "1s", animationDuration: "6s" }}
             >
               <circle
@@ -213,7 +213,7 @@ export default function UnAuthHomePage() {
 
             {/* Realistic Lightbulb */}
             <g
-              className="animate-pulse animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
+              className=" animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
               style={{ animationDelay: "0.5s", animationDuration: "3s" }}
             >
               <circle
@@ -279,7 +279,7 @@ export default function UnAuthHomePage() {
 
             {/* Realistic Stack of Books */}
             <g
-              className="animate-bounce animate-[slideInRight_0.7s_ease-out_0.6s_forwards]"
+              className="animate-[slideInRight_0.7s_ease-out_0.6s_forwards]"
               style={{ animationDelay: "1.5s", animationDuration: "4s" }}
             >
               <rect
@@ -341,7 +341,7 @@ export default function UnAuthHomePage() {
 
             {/* Realistic Graduation Cap */}
             <g
-              className="animate-pulse animate-[slideInRight_0.7s_ease-out_0.8s_forwards]"
+              className=" animate-[slideInRight_0.7s_ease-out_0.8s_forwards]"
               style={{ animationDelay: "2.5s", animationDuration: "3s" }}
             >
               <rect
@@ -375,7 +375,7 @@ export default function UnAuthHomePage() {
             <text
               x="50"
               y="100"
-              className="text-3xl fill-yellow-300 dark:fill-yellow-700 opacity-20 animate-bounce animate-[slideInRight_0.7s_ease-out_0.2s_forwards]"
+              className="text-3xl fill-yellow-300 dark:fill-yellow-700 opacity-20  animate-[slideInRight_0.7s_ease-out_0.2s_forwards]"
               style={{ animationDelay: "0s", animationDuration: "3s" }}
             >
               ?
@@ -383,7 +383,7 @@ export default function UnAuthHomePage() {
             <text
               x="350"
               y="700"
-              className="text-2xl fill-blue-300 dark:fill-blue-700 opacity-20 animate-bounce animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
+              className="text-2xl fill-blue-300 dark:fill-blue-700 opacity-20  animate-[slideInRight_0.7s_ease-out_0.4s_forwards]"
               style={{ animationDelay: "2s", animationDuration: "3.5s" }}
             >
               ?

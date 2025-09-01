@@ -1,8 +1,10 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import Lottie from "lottie-react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext, type IAuthContext } from "../../App";
+import checklist from "../../assets/css/animatons/checklist.json";
 
 export interface IListQuestionSet {
   _id: string;
@@ -55,63 +57,54 @@ function ListQuestionSet() {
       return;
     }
 
-    // Custom confirmation toast
-    const confirmToast = () =>
-      toast(
-        ({ closeToast }) => (
-          <div className="flex flex-col gap-2">
-            <p className="font-semibold">Are you sure you want to delete?</p>
-            <div className="flex gap-2 justify-end">
-              <button
-                onClick={async () => {
-                  try {
-                    await axios.delete(
-                      `http://localhost:3000/api/questions/set/${questionId}`,
-                      { headers: { Authorization: `Bearer ${accessToken}` } }
-                    );
+    toast(
+      ({ closeToast }) => (
+        <div className="flex flex-col gap-2">
+          <p className="font-semibold">Are you sure you want to delete?</p>
+          <div className="flex gap-2 justify-end">
+            <button
+              onClick={async () => {
+                try {
+                  await axios.delete(
+                    `http://localhost:3000/api/questions/set/${questionId}`,
+                    { headers: { Authorization: `Bearer ${accessToken}` } }
+                  );
 
-                    setQuestionSet((prev) =>
-                      prev.filter((q) => q._id !== questionId)
-                    );
+                  setQuestionSet((prev) =>
+                    prev.filter((q) => q._id !== questionId)
+                  );
 
-                    toast.success("Question set deleted successfully!");
-                  } catch (error: any) {
-                    toast.error(
-                      error.response?.data?.message ||
-                        "Failed to delete question set!"
-                    );
-                  } finally {
-                    closeToast?.(); // close the confirm toast
-                  }
-                }}
-                className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700"
-              >
-                Yes
-              </button>
-              <button
-                onClick={closeToast}
-                className="px-3 py-1 rounded bg-gray-300 text-black hover:bg-gray-400"
-              >
-                No
-              </button>
-            </div>
+                  toast.success("Question set deleted successfully!");
+                } catch (error) {
+                  toast.error(
+                    (error as AxiosError<{ message: string }>).response?.data
+                      ?.message || "Failed to delete question set!"
+                  );
+                } finally {
+                  closeToast?.();
+                }
+              }}
+              className="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700"
+            >
+              Yes
+            </button>
+            <button
+              onClick={closeToast}
+              className="px-3 py-1 rounded bg-gray-300 text-black hover:bg-gray-400"
+            >
+              No
+            </button>
           </div>
-        ),
-        {
-          autoClose: false, // don't auto close until user chooses
-          closeOnClick: false,
-          draggable: false,
-        }
-      );
-
-    confirmToast();
+        </div>
+      ),
+      { autoClose: false, closeOnClick: false, draggable: false }
+    );
   };
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-          {/* Enhanced loading animation */}
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
             <p className="text-gray-700 dark:text-gray-200 animate-pulse">
@@ -154,18 +147,24 @@ function ListQuestionSet() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
-      <div className="max-w-4xl mx-auto px-4 space-y-6">
-        {/* Animated header */}
-        <div className="text-center animate-slide-down">
-          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-[40%_60%] min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Left side: Lottie animation */}
+      <div className="hidden md:flex w-full h-full items-center justify-center p-4">
+        <Lottie animationData={checklist} loop className="w-full h-full" />
+      </div>
+
+      {/* Right side: Question cards */}
+      <div className="w-full flex flex-col px-6 py-8 space-y-6">
+        {/* Header */}
+        <div className="flex flex-col items-center md:items-start mb-6 animate-slide-down">
+          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white mb-2">
             Available Question Sets
           </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-500 mx-auto rounded-full"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full"></div>
         </div>
 
-        {/* Animated question cards */}
-        <div className="space-y-4">
+        {/* Question cards */}
+        <div className="flex flex-col space-y-4">
           {questionSets.map((question, index) => (
             <div
               key={question._id}
@@ -189,7 +188,6 @@ function ListQuestionSet() {
                   >
                     Take Quiz
                   </button>
-
                   {isAdmin && (
                     <button
                       onClick={() => DeleteQuestionSetHandler(question._id)}
@@ -209,48 +207,21 @@ function ListQuestionSet() {
       <style>
         {`
           @keyframes fade-in-up {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
           }
-
           @keyframes fade-in {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
           }
-
           @keyframes slide-down {
-            from {
-              opacity: 0;
-              transform: translateY(-20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
           }
 
-          .animate-fade-in-up {
-            animation: fade-in-up 0.8s ease-out forwards;
-            opacity: 0;
-          }
-
-          .animate-fade-in {
-            animation: fade-in 0.6s ease-out forwards;
-          }
-
-          .animate-slide-down {
-            animation: slide-down 0.6s ease-out forwards;
-          }
+          .animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; opacity: 0; }
+          .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
+          .animate-slide-down { animation: slide-down 0.6s ease-out forwards; }
         `}
       </style>
     </div>

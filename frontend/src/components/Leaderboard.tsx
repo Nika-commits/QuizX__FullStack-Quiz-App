@@ -179,7 +179,7 @@ function Leaderboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4">
         {/* Animated Header */}
         <div className="text-center mb-8 animate-slide-down">
@@ -396,7 +396,7 @@ function Leaderboard() {
 
             {/* Animated Full Leaderboard Table */}
             <div
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in-up"
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in-up "
               style={{ animationDelay: "400ms" }}
             >
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
