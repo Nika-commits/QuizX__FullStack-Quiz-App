@@ -157,7 +157,7 @@ function ListQuestionSet() {
       <div className="w-full flex flex-col px-6 py-8 space-y-6">
         {/* Header */}
         <div className="flex flex-col items-center md:items-start mb-6 animate-slide-down">
-          <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white mb-2">
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-yellow-400 mb-4">
             Available Question Sets
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full"></div>

@@ -183,7 +183,7 @@ function Leaderboard() {
       <div className="max-w-6xl mx-auto px-4">
         {/* Animated Header */}
         <div className="text-center mb-8 animate-slide-down">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-yellow-400 mb-4">
             Quiz Leaderboard
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-lg">

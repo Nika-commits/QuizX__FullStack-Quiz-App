@@ -68,11 +68,12 @@ function AuthHomePage() {
       <div className="bg-white dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-700">
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="text-center">
-            <h1 className="text-4xl font-extrabold text-gray-800 dark:text-white mb-2">
+            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-yellow-400 mb-4">
               Connected Users
             </h1>
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
-              {users.length} users are Connected
+            <p className="text-xl text-gray-600 dark:text-green-500 ">
+              {users.length} users
+              <span className="text-gray-300"> are Connected</span>
             </p>
             <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-500 mx-auto mt-4 rounded-full"></div>
           </div>
