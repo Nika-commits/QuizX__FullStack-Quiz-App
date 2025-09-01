@@ -317,9 +317,98 @@ async function getUserQuizStatsController(req, res) {
   }
 }
 
+// async function getLeaderboard(req, res) {
+//   try {
+//     const leaderboard = await AnswerModel.aggregate([
+//       {
+//         $group: {
+//           _id: "$user",
+//           totalQuizzes: { $sum: 1 },
+//           totalScore: { $sum: "$score" },
+//           totalQuestions: { $sum: "$total" },
+//           averagePercentage: {
+//             $avg: {
+//               $cond: [
+//                 { $gt: ["$total", 0] },
+//                 { $divide: ["$score", "$total"] },
+//                 0,
+//               ],
+//             },
+//           },
+//           highestPercentage: {
+//             $max: {
+//               $cond: [
+//                 { $gt: ["$total", 0] },
+//                 { $divide: ["$score", "$total"] },
+//                 0,
+//               ],
+//             },
+//           },
+//         },
+//       },
+//       {
+//         $lookup: {
+//           from: "users", // collection name in MongoDB
+//           localField: "_id",
+//           foreignField: "_id",
+//           as: "user",
+//         },
+//       },
+//       { $unwind: "$user" },
+//       {
+//         $project: {
+//           _id: 1,
+//           name: "$user.name",
+//           email: "$user.email",
+//           totalQuizzes: 1,
+//           totalScore: 1,
+//           totalQuestions: 1,
+//           averagePercentage: { $multiply: ["$averagePercentage", 100] },
+//           highestPercentage: { $multiply: ["$highestPercentage", 100] },
+//         },
+//       },
+//       { $sort: { averagePercentage: -1 } }, // sort by avg %
+//       { $limit: 50 },
+//     ]);
+
+//     // assign ranks
+//     leaderboard.forEach((user, i) => {
+//       user.rank = i + 1;
+//     });
+
+//     res.status(200).json({
+//       message: "Leaderboard retrieved successfully",
+//       leaderboard,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching leaderboard:", error);
+//     res.status(500).json({
+//       message: "Error retrieving leaderboard",
+//       error: error.message,
+//     });
+//   }
+// }
 async function getLeaderboard(req, res) {
   try {
+    const { timeframe = "all", sortBy = "average", limit = 50 } = req.query;
+
+    // Define date filter for timeframe
+    let match = {};
+    if (timeframe !== "all") {
+      const now = new Date();
+      let startDate;
+      if (timeframe === "week") {
+        startDate = new Date(now.setDate(now.getDate() - 7));
+      } else if (timeframe === "month") {
+        startDate = new Date(now.setMonth(now.getMonth() - 1));
+      } else if (timeframe === "year") {
+        startDate = new Date(now.setFullYear(now.getFullYear() - 1));
+      }
+      match.createdAt = { $gte: startDate };
+    }
+
     const leaderboard = await AnswerModel.aggregate([
+      { $match: match },
       {
         $group: {
           _id: "$user",
@@ -348,7 +437,7 @@ async function getLeaderboard(req, res) {
       },
       {
         $lookup: {
-          from: "users", // collection name in MongoDB
+          from: "users",
           localField: "_id",
           foreignField: "_id",
           as: "user",
@@ -367,11 +456,18 @@ async function getLeaderboard(req, res) {
           highestPercentage: { $multiply: ["$highestPercentage", 100] },
         },
       },
-      { $sort: { averagePercentage: -1 } }, // sort by avg %
-      { $limit: 50 },
+      {
+        $sort:
+          sortBy === "average"
+            ? { averagePercentage: -1 }
+            : sortBy === "total"
+            ? { totalScore: -1 }
+            : { totalQuizzes: -1 },
+      },
+      { $limit: parseInt(limit, 10) },
     ]);
 
-    // assign ranks
+    // Assign ranks
     leaderboard.forEach((user, i) => {
       user.rank = i + 1;
     });
