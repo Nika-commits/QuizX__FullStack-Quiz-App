@@ -332,9 +332,9 @@ function RegisterForm() {
       <div className="absolute inset-0 bg-white/20 dark:bg-black/20 pointer-events-none"></div>
 
       {/* Floating registration form */}
-      <div className="relative z-10 flex justify-center items-center min-h-screen px-4">
+      <div className="flex justify-center items-start pt-20 px-6 ">
         <div className="w-full max-w-md bg-white/90 dark:bg-gray-900/90 p-10 rounded-3xl shadow-2xl backdrop-blur-md animate-fade-in-up glow-all-around">
-          <h1 className="text-4xl font-extrabold mb-2 text-center text-gray-800 dark:text-gray-100">
+          <h1 className="text-4xl font-extrabold mb-2 text-center text-gray-800 dark:text-yellow-400">
             Sign Up
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 text-center">

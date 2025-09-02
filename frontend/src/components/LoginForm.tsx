@@ -57,7 +57,7 @@ function LoginForm() {
       {/* Right side: Login form */}
       <div className="flex justify-center items-start pt-20 px-6">
         <div className="w-full max-w-md bg-white/90 dark:bg-gray-900/90 p-10 rounded-3xl shadow-2xl backdrop-blur-md animate-fade-in-up glow-all-around">
-          <h1 className="text-4xl font-extrabold mb-2 text-center text-gray-800 dark:text-gray-100">
+          <h1 className="text-4xl font-extrabold mb-2 text-center text-gray-800 dark:text-yellow-400">
             Login
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 text-center">

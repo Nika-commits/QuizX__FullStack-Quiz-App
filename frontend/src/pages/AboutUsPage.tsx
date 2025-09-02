@@ -39,7 +39,7 @@ export default function AboutUsPage() {
   const isAnimated = (id: string) => animatedElements.has(id);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className=" font-montserrat min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
         <div className="max-w-4xl mx-auto px-4 py-24 lg:py-32">
