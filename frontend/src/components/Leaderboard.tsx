@@ -24,18 +24,19 @@ interface LeaderboardFilters {
 function Leaderboard() {
   const navigate = useNavigate();
   const [users, setUsers] = useState<LeaderboardUser[]>([]);
-  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState<LeaderboardFilters>({
     timeframe: "all",
     sortBy: "average",
     limit: 50,
   });
+  // Add state to track animation status
+  const [animationsComplete, setAnimationsComplete] = useState(false);
 
   const fetchLeaderboard = useCallback(async () => {
     try {
-      // setLoading(true);
       setError(null);
+      setAnimationsComplete(false); // Reset animation state on new fetch
 
       const accessToken = localStorage.getItem("accessToken");
       if (!accessToken) {
@@ -67,14 +68,27 @@ function Leaderboard() {
         setError("Failed to load leaderboard. Please try again.");
       }
       setUsers([]);
-    } finally {
-      // setLoading(false);
     }
   }, [filters]);
 
   useEffect(() => {
     fetchLeaderboard();
   }, [fetchLeaderboard]);
+
+  // New useEffect to handle animation completion
+  useEffect(() => {
+    if (users.length > 0) {
+      // Calculate the total animation duration
+      const totalAnimationDuration = 500 + users.length * 100 + 100; // Add a small buffer
+      const timer = setTimeout(() => {
+        setAnimationsComplete(true);
+      }, totalAnimationDuration);
+
+      return () => clearTimeout(timer); // Cleanup the timer
+    } else {
+      setAnimationsComplete(true); // If no users, animations are instantly "complete"
+    }
+  }, [users]);
 
   const handleUserClick = (userId: string) => {
     navigate(`/profile/${userId}`);
@@ -90,13 +104,14 @@ function Leaderboard() {
   };
 
   const getRankColor = (rank: number) => {
-    if (rank === 1) return "from-yellow-400 to-yellow-500"; // Gold
-    if (rank === 2) return "from-gray-300 to-gray-400"; // Silver
-    if (rank === 3) return "from-orange-400 to-orange-500"; // Bronze
-    return "from-blue-400 to-blue-500"; // Default
+    if (rank === 1) return "from-yellow-400 to-yellow-500";
+    if (rank === 2) return "from-gray-300 to-gray-400";
+    if (rank === 3) return "from-orange-400 to-orange-500";
+    return "from-blue-400 to-blue-500";
   };
 
   const getRankIcon = (rank: number) => {
+    // ... (rest of the function remains the same)
     if (rank === 1) {
       return (
         <svg
@@ -153,11 +168,8 @@ function Leaderboard() {
     return "text-red-600 dark:text-red-400";
   };
 
-  // if (loading) {
-  //   return <FullPageLoading message="Loading leaderboard..." />;
-  // }
-
   if (error) {
+    // ... (remains the same)
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-4 animate-fade-in">
@@ -197,6 +209,7 @@ function Leaderboard() {
           className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8 border border-gray-200 dark:border-gray-700 animate-fade-in-up"
           style={{ animationDelay: "200ms" }}
         >
+          {/* ... (filter controls) */}
           <div className="flex flex-wrap gap-4 items-center justify-center">
             {/* Timeframe Filter */}
             <div className="flex items-center gap-2">
@@ -268,6 +281,7 @@ function Leaderboard() {
 
         {/* Leaderboard Content */}
         {users.length === 0 ? (
+          // ... (no quiz data message)
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-12 border border-gray-200 dark:border-gray-700 animate-fade-in">
             <div className="text-center">
               <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -303,6 +317,7 @@ function Leaderboard() {
           <div className="space-y-6">
             {/* Animated Top 3 Podium */}
             {users.length >= 3 && (
+              // ... (Top 3 code)
               <div
                 className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 mb-8 animate-fade-in-up"
                 style={{ animationDelay: "300ms" }}
@@ -396,7 +411,9 @@ function Leaderboard() {
 
             {/* Animated Full Leaderboard Table */}
             <div
-              className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in-up "
+              className={`bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 animate-fade-in-up overflow-hidden ${
+                animationsComplete ? "overflow-scroll" : ""
+              } custom-scrollbar`}
               style={{ animationDelay: "400ms" }}
             >
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -405,7 +422,8 @@ function Leaderboard() {
                 </h2>
               </div>
 
-              <div className="overflow-x-auto">
+              {/* Table with styled scrollbar */}
+              <div className="overflow-scroll custom-scrollbar">
                 <table className="w-full">
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
@@ -574,7 +592,7 @@ function Leaderboard() {
         )}
       </div>
 
-      {/* Animation styles */}
+      {/* Enhanced styles with custom scrollbar */}
       <style>
         {`
           @keyframes fade-in-up {
@@ -619,6 +637,66 @@ function Leaderboard() {
 
           .animate-slide-down {
             animation: slide-down 0.6s ease-out forwards;
+          }
+
+          /* Custom Scrollbar Styles */
+          .custom-scrollbar {
+            /* For webkit browsers (Chrome, Safari, Edge) */
+            scrollbar-width: thin;
+            scrollbar-color: #fbbf24 transparent;
+            overflow: auto !important;
+          }
+
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+            -webkit-appearance: none; /* Force scrollbar to be visible */
+          }
+
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+          }
+
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #fbbf24, #f59e0b);
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+            box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.3);
+          }
+
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #f59e0b, #d97706);
+          }
+
+          .custom-scrollbar::-webkit-scrollbar-corner {
+            background: transparent;
+          }
+
+          /* Dark mode scrollbar */
+          .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+          }
+
+          .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #fbbf24, #f59e0b);
+            border: 2px solid rgba(31, 41, 55, 0.8);
+            box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.5);
+          }
+
+          .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #f59e0b, #d97706);
+          }
+
+          /* Force scrollbar to always be visible in Firefox */
+          .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: #fbbf24 rgba(0, 0, 0, 0.1);
+          }
+
+          .dark .custom-scrollbar {
+            scrollbar-color: #fbbf24 rgba(255, 255, 255, 0.1);
           }
         `}
       </style>

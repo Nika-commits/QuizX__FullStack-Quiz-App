@@ -315,7 +315,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Back Button - Only show when viewing other user's profile */}
         {isViewingOtherProfile && (
           <div className="mb-6 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.1s_forwards] translate-y-4">
@@ -343,21 +343,16 @@ const ProfilePage: React.FC = () => {
 
         {/* Header */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards] translate-y-4">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-6">
             <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
-              <div className="w-24 h-24 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+              <div className="w-24 h-24 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg ring-4 ring-yellow-100 dark:ring-yellow-900/30">
                 {getInitials(profile.user.name)}
               </div>
               <div className="text-center sm:text-left">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
                   {profile.user.name}
-                  {/* {currentUserIsAdmin && userId && (
-                      <span className="text-sm text-gray-500 ml-2">
-                        (Admin View)
-                      </span>
-                    )} */}
                 </h1>
-                <p className="text-gray-600 dark:text-gray-400 text-lg">
+                <p className="text-gray-600 dark:text-gray-400 text-lg mb-1">
                   {profile.user.email}
                 </p>
                 {profile.user.age && (
@@ -405,351 +400,381 @@ const ProfilePage: React.FC = () => {
             targetUserId={userId}
           />
         ) : (
-          <div className="space-y-8">
-            {/* Bio Section */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] translate-y-4">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                About {isOwnProfile ? "You" : profile.user.name.split(" ")[0]}
-              </h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-                {profile.bio ||
-                  `${
-                    isOwnProfile ? "You haven't" : `${profile.user.name} hasn't`
-                  } added a bio yet.${
-                    isOwnProfile ? ' Click "Edit Profile" to add one.' : ""
-                  }`}
-              </p>
-            </div>
-
-            {/* Links Section */}
-            {(profile.github || profile.linkedin || profile.portfolioUrl) && (
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards] translate-y-4">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                  Links
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* Bio Section */}
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.4s_forwards] translate-y-4">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">
+                  About {isOwnProfile ? "You" : profile.user.name.split(" ")[0]}
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {profile.github && (
-                    <a
-                      href={profile.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                    >
-                      <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm font-bold">GH</span>
-                      </div>
-                      <span className="text-gray-700 dark:text-gray-300 font-medium">
-                        GitHub
-                      </span>
-                    </a>
-                  )}
-
-                  {profile.linkedin && (
-                    <a
-                      href={profile.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                    >
-                      <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm font-bold">LI</span>
-                      </div>
-                      <span className="text-gray-700 dark:text-gray-300 font-medium">
-                        LinkedIn
-                      </span>
-                    </a>
-                  )}
-
-                  {profile.portfolioUrl && (
-                    <a
-                      href={profile.portfolioUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                    >
-                      <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center">
-                        <span className="text-white text-sm font-bold">PF</span>
-                      </div>
-                      <span className="text-gray-700 dark:text-gray-300 font-medium">
-                        Portfolio
-                      </span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Skills Section */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards] translate-y-4">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                Skills
-              </h2>
-              {profile.skills && profile.skills.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {profile.skills.map((skill, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl hover:shadow-md hover:-translate-y-1 transition-all duration-300"
-                      style={{
-                        animationDelay: `${0.9 + index * 0.1}s`,
-                      }}
-                    >
-                      <span className="font-medium text-gray-900 dark:text-white">
-                        {skill.name}
-                      </span>
-                      <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          skill.level === "Advanced"
-                            ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                            : skill.level === "Intermediate"
-                            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
-                            : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
-                        }`}
-                      >
-                        {skill.level}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-gray-500 dark:text-gray-400 italic text-lg">
-                    {isOwnProfile
-                      ? 'No skills added yet. Click "Edit Profile" to add your skills.'
-                      : `${
-                          profile.user.name.split(" ")[0]
-                        } hasn't added any skills yet.`}
+                <div className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+                    {profile.bio ||
+                      `${
+                        isOwnProfile
+                          ? "You haven't"
+                          : `${profile.user.name} hasn't`
+                      } added a bio yet.${
+                        isOwnProfile ? ' Click "Edit Profile" to add one.' : ""
+                      }`}
                   </p>
                 </div>
-              )}
-            </div>
+              </div>
 
-            {/* Quiz History Section */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_1s_forwards] translate-y-4">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Quiz Performance
-                </h2>
-                {quizAttempts.length > 0 && (
-                  <div className="text-sm text-gray-500 dark:text-gray-400">
-                    {quizAttempts.length} quiz
-                    {quizAttempts.length !== 1 ? "es" : ""} completed
+              {/* Quiz History Section */}
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_1s_forwards] translate-y-4">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 md:mb-0">
+                    Quiz Performance
+                  </h2>
+                  {quizAttempts.length > 0 && (
+                    <div className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                      {quizAttempts.length} quiz
+                      {quizAttempts.length !== 1 ? "es" : ""} completed
+                    </div>
+                  )}
+                </div>
+
+                {quizLoading ? (
+                  <div className="text-center py-8">
+                    <div className="w-8 h-8 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Loading quiz history...
+                    </p>
                   </div>
-                )}
-              </div>
-
-              {quizLoading ? (
-                <div className="text-center py-8">
-                  <div className="w-8 h-8 border-2 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Loading quiz history...
-                  </p>
-                </div>
-              ) : quizAttempts.length > 0 ? (
-                <div className="space-y-6">
-                  {/* Quiz Statistics Overview */}
-                  {quizStats && (
-                    <div className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-600 rounded-xl p-6 border border-gray-200 dark:border-gray-600 opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] translate-y-4">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                        Quiz Statistics
-                      </h3>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-yellow-500">
-                            {quizStats.totalAttempts}
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            Total Quizzes
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <div
-                            className={`text-2xl font-bold ${getScoreColor(
-                              quizStats.averagePercentage
-                            )}`}
-                          >
-                            {quizStats.averagePercentage}%
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            Average Score
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <div
-                            className={`text-2xl font-bold ${getScoreColor(
-                              quizStats.highestPercentage
-                            )}`}
-                          >
-                            {quizStats.highestPercentage}%
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            Best Score
-                          </div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-gray-600 dark:text-gray-400">
-                            {quizStats.totalScore}/{quizStats.totalQuestions}
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            Total Correct
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Quiz Attempts List */}
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_1.4s_forwards] translate-y-4">
-                      Recent Quiz Attempts
-                    </h3>
-                    <div className="space-y-4">
-                      {quizAttempts.map((attempt, index) => (
-                        <div
-                          key={attempt._id}
-                          className="flex items-center justify-between p-6 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl hover:shadow-md hover:-translate-y-1 transition-all duration-300 opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards] translate-y-4"
-                          style={{
-                            animationDelay: `${1.6 + index * 0.1}s`,
-                          }}
-                        >
-                          <div className="flex-1">
-                            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                              {attempt.questionSet.title}
-                            </h4>
-                            {attempt.questionSet.description && (
-                              <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
-                                {attempt.questionSet.description}
-                              </p>
-                            )}
-                            <div className="flex flex-wrap items-center gap-4 text-sm">
-                              <span className="text-gray-500 dark:text-gray-400">
-                                Completed on {formatDate(attempt.attemptedAt)}
-                              </span>
-                              <span className="text-gray-500 dark:text-gray-400">
-                                •
-                              </span>
-                              <span className="text-gray-500 dark:text-gray-400">
-                                {attempt.responses.length} questions answered
-                              </span>
+                ) : quizAttempts.length > 0 ? (
+                  <div className="space-y-6">
+                    {/* Quiz Statistics Overview */}
+                    {quizStats && (
+                      <div className="bg-gradient-to-r from-gray-50 to-white dark:from-gray-700 dark:to-gray-600 rounded-xl p-6 border border-gray-200 dark:border-gray-600 opacity-0 animate-[fadeInUp_0.6s_ease-out_1.2s_forwards] translate-y-4">
+                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                          Quiz Statistics
+                        </h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                            <div className="text-2xl font-bold text-yellow-500">
+                              {quizStats.totalAttempts}
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              Total Quizzes
                             </div>
                           </div>
+                          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                            <div
+                              className={`text-2xl font-bold ${getScoreColor(
+                                quizStats.averagePercentage
+                              )}`}
+                            >
+                              {quizStats.averagePercentage}%
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              Average Score
+                            </div>
+                          </div>
+                          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                            <div
+                              className={`text-2xl font-bold ${getScoreColor(
+                                quizStats.highestPercentage
+                              )}`}
+                            >
+                              {quizStats.highestPercentage}%
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              Best Score
+                            </div>
+                          </div>
+                          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+                            <div className="text-2xl font-bold text-gray-600 dark:text-gray-400">
+                              {quizStats.totalScore}/{quizStats.totalQuestions}
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              Total Correct
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
-                          <div className="flex items-center gap-4 ml-6">
-                            {/* Score Display */}
-                            <div className="text-right">
-                              <div className="flex items-center gap-2 mb-1">
+                    {/* Quiz Attempts List */}
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_1.4s_forwards] translate-y-4">
+                        Recent Quiz Attempts
+                      </h3>
+                      <div
+                        className="space-y-4 max-h-96 overflow-y-auto pr-2
+                  scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300
+                  dark:scrollbar-track-gray-800 dark:scrollbar-thumb-gray-600
+                  hover:scrollbar-thumb-gray-400 dark:hover:scrollbar-thumb-gray-500
+                  scrollbar-thumb-rounded-full scrollbar-track-rounded-full
+                  [&::-webkit-scrollbar]:w-2
+                  [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-track]:rounded-full
+                  [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full
+                  [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-padding
+                  dark:[&::-webkit-scrollbar-track]:bg-gray-800
+                  dark:[&::-webkit-scrollbar-thumb]:bg-gray-600
+                  hover:[&::-webkit-scrollbar-thumb]:bg-gray-400
+                  dark:hover:[&::-webkit-scrollbar-thumb]:bg-gray-500"
+                      >
+                        {quizAttempts.map((attempt, index) => (
+                          <div
+                            key={attempt._id}
+                            className="flex flex-col md:flex-row items-start md:items-center justify-between p-6 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl hover:shadow-md hover:-translate-y-1 transition-all duration-300 opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards] translate-y-4"
+                            style={{
+                              animationDelay: `${1.6 + index * 0.1}s`,
+                            }}
+                          >
+                            <div className="flex-1 mb-4 md:mb-0">
+                              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                                {attempt.questionSet.title}
+                              </h4>
+                              {attempt.questionSet.description && (
+                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
+                                  {attempt.questionSet.description}
+                                </p>
+                              )}
+                              <div className="flex flex-wrap items-center gap-4 text-sm">
+                                <span className="text-gray-500 dark:text-gray-400">
+                                  Completed on {formatDate(attempt.attemptedAt)}
+                                </span>
+                                <span className="text-gray-500 dark:text-gray-400 hidden md:inline">
+                                  •
+                                </span>
+                                <span className="text-gray-500 dark:text-gray-400">
+                                  {attempt.responses.length} questions answered
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                              {/* Score Display */}
+                              <div className="text-right">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span
+                                    className={`text-2xl font-bold ${getScoreColor(
+                                      attempt.percentage
+                                    )}`}
+                                  >
+                                    {attempt.score}
+                                  </span>
+                                  <span className="text-lg text-gray-400 dark:text-gray-500">
+                                    /
+                                  </span>
+                                  <span className="text-lg font-semibold text-gray-600 dark:text-gray-400">
+                                    {attempt.total}
+                                  </span>
+                                </div>
                                 <span
-                                  className={`text-2xl font-bold ${getScoreColor(
+                                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getScoreBadge(
                                     attempt.percentage
                                   )}`}
                                 >
-                                  {attempt.score}
-                                </span>
-                                <span className="text-lg text-gray-400 dark:text-gray-500">
-                                  /
-                                </span>
-                                <span className="text-lg font-semibold text-gray-600 dark:text-gray-400">
-                                  {attempt.total}
+                                  {attempt.percentage.toFixed(0)}%
                                 </span>
                               </div>
-                              <span
-                                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${getScoreBadge(
-                                  attempt.percentage
-                                )}`}
-                              >
-                                {attempt.percentage.toFixed(0)}%
-                              </span>
-                            </div>
 
-                            {/* Grade Icon */}
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 flex items-center justify-center">
-                              {attempt.percentage >= 90 ? (
-                                <svg
-                                  className="w-6 h-6 text-white"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                              ) : attempt.percentage >= 70 ? (
-                                <svg
-                                  className="w-6 h-6 text-white"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                  />
-                                </svg>
-                              ) : (
-                                <svg
-                                  className="w-6 h-6 text-white"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 15.5c-.77.833.192 2.5 1.732 2.5z"
-                                  />
-                                </svg>
-                              )}
+                              {/* Grade Icon */}
+                              <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 flex items-center justify-center">
+                                {attempt.percentage >= 90 ? (
+                                  <svg
+                                    className="w-6 h-6 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                ) : attempt.percentage >= 70 ? (
+                                  <svg
+                                    className="w-6 h-6 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                    />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    className="w-6 h-6 text-white"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 15.5c-.77.833.192 2.5 1.732 2.5z"
+                                    />
+                                  </svg>
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg
-                      className="w-10 h-10 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="w-20 h-20 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <svg
+                        className="w-10 h-10 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                      No Quiz History
+                    </h3>
+                    <p className="text-gray-500 dark:text-gray-400 mb-6">
+                      {isOwnProfile
+                        ? "You haven't completed any quizzes yet."
+                        : `${
+                            profile.user.name.split(" ")[0]
+                          } hasn't completed any quizzes yet.`}
+                    </p>
+                    {isOwnProfile && (
+                      <button
+                        onClick={() => navigate("/questionset/list")}
+                        className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
+                      >
+                        Take Your First Quiz
+                      </button>
+                    )}
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-                    No Quiz History
-                  </h3>
-                  <p className="text-gray-500 dark:text-gray-400 mb-6">
-                    {isOwnProfile
-                      ? "You haven't completed any quizzes yet."
-                      : `${
-                          profile.user.name.split(" ")[0]
-                        } hasn't completed any quizzes yet.`}
-                  </p>
-                  {isOwnProfile && (
-                    <button
-                      onClick={() => navigate("/questionset/list")}
-                      className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-white font-semibold rounded-lg transition duration-200"
-                    >
-                      Take Your First Quiz
-                    </button>
-                  )}
+                )}
+              </div>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-8">
+              {/* Links Section */}
+              {(profile.github || profile.linkedin || profile.portfolioUrl) && (
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.6s_forwards] translate-y-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">
+                    Links
+                  </h2>
+                  <div className="grid grid-cols-1 gap-4">
+                    {profile.github && (
+                      <a
+                        href={profile.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                      >
+                        <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center shadow-inner">
+                          <span className="text-white text-sm font-bold">
+                            GH
+                          </span>
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 font-medium">
+                          GitHub
+                        </span>
+                      </a>
+                    )}
+
+                    {profile.linkedin && (
+                      <a
+                        href={profile.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                      >
+                        <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-inner">
+                          <span className="text-white text-sm font-bold">
+                            LI
+                          </span>
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 font-medium">
+                          LinkedIn
+                        </span>
+                      </a>
+                    )}
+
+                    {profile.portfolioUrl && (
+                      <a
+                        href={profile.portfolioUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-yellow-400 dark:hover:border-yellow-400 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                      >
+                        <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center shadow-inner">
+                          <span className="text-white text-sm font-bold">
+                            PF
+                          </span>
+                        </div>
+                        <span className="text-gray-700 dark:text-gray-300 font-medium">
+                          Portfolio
+                        </span>
+                      </a>
+                    )}
+                  </div>
                 </div>
               )}
+
+              {/* Skills Section */}
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.8s_forwards] translate-y-4">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 pb-2 border-b border-gray-200 dark:border-gray-700">
+                  Skills
+                </h2>
+                {profile.skills && profile.skills.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-4">
+                    {profile.skills.map((skill, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                        style={{
+                          animationDelay: `${0.9 + index * 0.1}s`,
+                        }}
+                      >
+                        <span className="font-medium text-gray-900 dark:text-white">
+                          {skill.name}
+                        </span>
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm font-medium ${
+                            skill.level === "Advanced"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                              : skill.level === "Intermediate"
+                              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200"
+                              : "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                          }`}
+                        >
+                          {skill.level}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                    <p className="text-gray-500 dark:text-gray-400 italic text-lg">
+                      {isOwnProfile
+                        ? 'No skills added yet. Click "Edit Profile" to add your skills.'
+                        : `${
+                            profile.user.name.split(" ")[0]
+                          } hasn't added any skills yet.`}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

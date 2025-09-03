@@ -71,10 +71,22 @@ function AuthHomePage() {
             <h1 className="text-4xl font-extrabold text-gray-900 dark:text-yellow-400 mb-4">
               Connected Users
             </h1>
-            <p className="text-xl text-gray-600 dark:text-green-500 ">
-              {users.length} users
+            {/* <p className="text-xl text-gray-600 dark:text-green-500 ">
+              <span className="text-gray-800 dark:text-green-600 font-semibold">
+                {users.length} users
+              </span>
               <span className="text-gray-300"> are Connected</span>
+            </p> */}
+            <p className="text-xl text-gray-600 dark:text-green-500 ">
+              <span className="px-3 py-1 rounded-2xl bg-gray-100 dark:bg-green-900 text-gray-800 dark:text-green-300 font-semibold shadow-sm">
+                {users.length} users
+              </span>
+              {/* <span className="text-gray-800 dark:text-green-600 font-semibold">
+                users
+              </span> */}
+              <span className="text-gray-400"> are Connected</span>
             </p>
+
             <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-500 mx-auto mt-4 rounded-full"></div>
           </div>
         </div>
