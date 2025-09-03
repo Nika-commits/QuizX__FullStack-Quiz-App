@@ -1,7 +1,9 @@
 "use client";
 
+import Lottie from "lottie-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import itsaquiz from "../assets/css/animatons/itsaquiz.json";
 
 export default function AboutUsPage() {
   const [animatedElements, setAnimatedElements] = useState<Set<string>>(
@@ -39,32 +41,50 @@ export default function AboutUsPage() {
   const isAnimated = (id: string) => animatedElements.has(id);
 
   return (
-    <div className=" font-montserrat min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="font-montserrat min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800">
-        <div className="max-w-4xl mx-auto px-4 py-24 lg:py-32">
-          <div className="text-center space-y-8">
-            <h1
-              data-animate-id="hero-title"
-              className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 dark:text-white text-balance transition-all duration-700 ${
-                isAnimated("hero-title")
-                  ? "opacity-100 transform translate-y-0 animate-bounce"
-                  : "opacity-0 transform translate-y-8"
-              }`}
-            >
-              About <span className="text-yellow-500 animate-pulse">QuizX</span>
-            </h1>
-            <p
-              data-animate-id="hero-subtitle"
-              className={`text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto text-pretty transition-all duration-700 delay-300 ${
-                isAnimated("hero-subtitle")
-                  ? "opacity-100 transform translate-y-0"
-                  : "opacity-0 transform translate-y-8"
-              }`}
-            >
-              We're passionate about making learning engaging, accessible, and
-              fun for everyone through interactive quizzes and challenges.
-            </p>
+        <div className="max-w-7xl mx-auto px-4 py-24 lg:py-32">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+            <div className="text-center lg:text-left space-y-8">
+              <h1
+                data-animate-id="hero-title"
+                className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 dark:text-white text-balance transition-all duration-700 ${
+                  isAnimated("hero-title")
+                    ? "opacity-100 transform translate-y-0"
+                    : "opacity-0 transform translate-y-8"
+                }`}
+              >
+                About{" "}
+                <span className="text-yellow-500 animate-pulse">QuizX</span>
+              </h1>
+              <p
+                data-animate-id="hero-subtitle"
+                className={`text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto lg:mx-0 text-pretty transition-all duration-700 delay-300 ${
+                  isAnimated("hero-subtitle")
+                    ? "opacity-100 transform translate-y-0"
+                    : "opacity-0 transform translate-y-8"
+                }`}
+              >
+                We're passionate about making learning engaging, accessible, and
+                fun for everyone through interactive quizzes and challenges.
+              </p>
+            </div>
+
+            {/* Lottie Animation */}
+            <div className="hidden lg:flex lg:justify-end lg:items-center pl-8 mt-8 lg:mt-0">
+              <div className="w-full max-w-2xl ml-auto">
+                <div className="w-full h-96  rounded-2xl flex items-center justify-center">
+                  <p className=" text-center">
+                    <Lottie
+                      animationData={itsaquiz}
+                      loop
+                      className="w-full scale-110"
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -104,7 +124,7 @@ export default function AboutUsPage() {
                   : "opacity-0 transform translate-x-8"
               }`}
             >
-              <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+              <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6 hover:animate-pulse transition-all duration-500">
                 <svg
                   className="h-8 w-8 text-white"
                   fill="none"
@@ -291,7 +311,7 @@ export default function AboutUsPage() {
             data-animate-id="cta-content"
             className={`bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-700 p-12 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-700 ${
               isAnimated("cta-content")
-                ? "opacity-100 transform translate-y-0 "
+                ? "opacity-100 transform translate-y-0"
                 : "opacity-0 transform translate-y-8"
             }`}
           >
@@ -305,7 +325,7 @@ export default function AboutUsPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => navigate("/register")}
-                className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 hover:scale-110 text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg hover:shadow-2xl "
+                className="px-8 py-3 bg-yellow-400 hover:bg-yellow-500 hover:scale-110 text-white font-bold rounded-lg shadow-lg transition-all duration-300 transform text-lg hover:shadow-2xl group"
               >
                 Get Started
                 <svg
